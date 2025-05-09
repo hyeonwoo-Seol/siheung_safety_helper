@@ -13,6 +13,9 @@
         android:theme="@style/Theme.SafetyHelper"
         tools:targetApi="31">
         <activity
+            android:name=".AiResponseActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
