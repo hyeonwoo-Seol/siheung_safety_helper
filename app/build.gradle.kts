@@ -7,6 +7,10 @@ android {
     namespace = "com.example.safetyhelper"
     compileSdk = 35
 
+    viewBinding {
+        enable = true
+    }
+
     defaultConfig {
         applicationId = "com.example.safetyhelper"
         minSdk = 30

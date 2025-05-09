@@ -1,6 +1,13 @@
 package com.example.safetyhelper
 
+import android.app.AlertDialog
+import android.content.ContentValues
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.Button
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
