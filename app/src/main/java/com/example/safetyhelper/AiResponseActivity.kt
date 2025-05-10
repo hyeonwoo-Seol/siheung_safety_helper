@@ -30,6 +30,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
+import android.view.ViewGroup
 
 class AiResponseActivity : AppCompatActivity() {
     private lateinit var binding : ActivityAiResponseBinding
@@ -73,11 +74,14 @@ class AiResponseActivity : AppCompatActivity() {
                     )
                     if (resp.isSuccessful && resp.body() != null) {
                         binding.responseText.text = resp.body()!!.result
+                        updateResponseText(resp.body()!!.result)
                     } else {
                         binding.responseText.text = getString(R.string.error_server, resp.code())
+                        updateResponseText(getString(R.string.error_server, resp.code()))
                     }
                 } catch (e: Exception) {
                     binding.responseText.text = getString(R.string.error_network, e.localizedMessage)
+                    updateResponseText(getString(R.string.error_network, e.localizedMessage))
                 }
             }
         }
@@ -245,6 +249,24 @@ class AiResponseActivity : AppCompatActivity() {
             visibility = View.VISIBLE
             setImageURI(uri)
         }
+        binding.scrollView.post { binding.scrollView.fullScroll(View.FOCUS_DOWN)}
+    }
+
+    private fun updateResponseText(text: String){
+        binding.responseText.text = text
+
+        binding.responseText.post {
+            val lines = binding.responseText.lineCount
+            val lineHeight = binding.responseText.lineHeight
+            val padding = binding.responseText.compoundPaddingTop +
+                    binding.responseText.compoundPaddingBottom
+
+            (binding.responseText.layoutParams as? ViewGroup.MarginLayoutParams)?.let { params ->
+                params.height = lines * lineHeight + padding
+                binding.responseText.layoutParams = params
+            }
+        }
+
         binding.scrollView.post { binding.scrollView.fullScroll(View.FOCUS_DOWN)}
     }
 
