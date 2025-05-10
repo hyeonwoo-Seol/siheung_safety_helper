@@ -81,7 +81,8 @@
             <TextView
                 android:id="@+id/responseText"
                 android:layout_width="match_parent"
-                android:layout_height="460dp"
+                android:layout_height="wrap_content"
+                android:minHeight="460dp"
                 android:layout_marginTop="18dp"
                 android:layout_marginBottom="24dp"
                 android:background="@drawable/content_round"
@@ -105,6 +106,21 @@
                 app:layout_constraintTop_toBottomOf="@id/responseText"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
+
+            <Button
+                android:id="@+id/sendImageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text = "민원 전송하기"
+                android:textSize="14sp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/content_round"
+                android:textColor="@color/title_text_color"
+                app:backgroundTint="@null"
+                app:layout_constraintTop_toBottomOf="@id/selectedImageView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
