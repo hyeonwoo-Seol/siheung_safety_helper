@@ -28,6 +28,8 @@ import com.example.safetyhelper.databinding.ActivityAiResponseBinding
 import com.example.safetyhelper.databinding.DialogFullscreenImageBinding
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 class AiResponseActivity : AppCompatActivity() {
     private lateinit var binding : ActivityAiResponseBinding
@@ -47,6 +49,38 @@ class AiResponseActivity : AppCompatActivity() {
         val scrollView = binding.scrollView
         val selectedImageView = binding.selectedImageView
         val loadBtn = binding.loadImageButton
+
+
+        //다른 액티비티에서 전달 받기
+        //val location = intent.getStringExtra("location") ?: ""
+        //val name     = intent.getStringExtra("name")     ?: ""
+
+        //테스트 용도
+        val location = "시흥시 정왕동 121"
+        val name = "설현우"
+
+        binding.sendButton.setOnClickListener {
+            val issue = binding.issueInput.text.toString().trim()
+            if (issue.isEmpty()) {
+                binding.responseText.text = "이슈를 입력해주세요."
+                return@setOnClickListener
+            }
+            lifecycleScope.launch {
+                binding.responseText.text = "요청 중..."
+                try {
+                    val resp = RetrofitClient.apiService.getLLMResponse(
+                        ApiRequest(location, name, issue)
+                    )
+                    if (resp.isSuccessful && resp.body() != null) {
+                        binding.responseText.text = resp.body()!!.result
+                    } else {
+                        binding.responseText.text = getString(R.string.error_server, resp.code())
+                    }
+                } catch (e: Exception) {
+                    binding.responseText.text = getString(R.string.error_network, e.localizedMessage)
+                }
+            }
+        }
 
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
