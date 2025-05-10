@@ -9,6 +9,7 @@ import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
@@ -25,6 +26,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.safetyhelper.databinding.ActivityAiResponseBinding
 //import com.example.safetyhelper.DialogFullscreenImageBinding
 import com.example.safetyhelper.databinding.DialogFullscreenImageBinding
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 
 class AiResponseActivity : AppCompatActivity() {
     private lateinit var binding : ActivityAiResponseBinding
@@ -32,7 +35,8 @@ class AiResponseActivity : AppCompatActivity() {
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private var imageUri: Uri? = null
     private var tempImageUri: Uri? = null
-    private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+    private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
+    private lateinit var photoPickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,17 +49,34 @@ class AiResponseActivity : AppCompatActivity() {
         val loadBtn = binding.loadImageButton
 
         requestPermissionLauncher = registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
-        ) { granted ->
-            if (granted) {
-                launchCamera()
-            } else
-                showPermissionDeniedDialog()
+            ActivityResultContracts.RequestMultiplePermissions()
+        ) { perms ->
+            val cameraOk = perms[Manifest.permission.CAMERA]?:false
+            val readImagesOk = perms[Manifest.permission.READ_MEDIA_IMAGES]?:false
+
+            when {
+                cameraOk -> {
+                    launchCamera()
+                }
+
+                readImagesOk -> {
+                    galleryLauncher.launch("image/*")
+                }
+                else -> {
+                    showPermissionDeniedDialog()
+                }
+            }
         }
         // 갤러리에서 이미지 가져오기
         galleryLauncher = registerForActivityResult(
             ActivityResultContracts.GetContent()
         ) {uri ->
+            uri?.let {handleImageUri(it)}
+        }
+
+        photoPickerLauncher = registerForActivityResult(
+            ActivityResultContracts.PickVisualMedia()
+        ) { uri ->
             uri?.let {handleImageUri(it)}
         }
 
@@ -72,11 +93,41 @@ class AiResponseActivity : AppCompatActivity() {
             AlertDialog.Builder(this)
                 .setTitle("이미지 불러오기")
                 .setItems(arrayOf("갤러리에서 선택", "카메라로 촬영")) { _, which ->
-                    when(which) {
-                        0-> galleryLauncher.launch("image/*")
-                        1-> checkCameraPermissionAndLaunch()
+                    when (which) {
+                        0 -> {
+                            when {
+                                Build.VERSION.SDK_INT >= 34 -> {
+                                    photoPickerLauncher.launch(
+                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                    )
+                                }
+                                Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                                    requestPermissionLauncher.launch(arrayOf(
+                                        Manifest.permission.READ_MEDIA_IMAGES
+                                    ))
+                                }
+                                else -> {
+                                    galleryLauncher.launch("image/*")
+                                }
+                            }
+                        }
+
+                        1 -> {
+                            if (ContextCompat.checkSelfPermission(
+                                    this, Manifest.permission.CAMERA
+                                ) == PackageManager.PERMISSION_GRANTED
+                            ) {
+                                launchCamera()
+                            } else {
+                                requestPermissionLauncher.launch(
+                                    arrayOf(
+                                        Manifest.permission.CAMERA
+                                    )
+                                )
+                            }
                         }
                     }
+                }
                 .show()
                 }
 
@@ -100,7 +151,7 @@ class AiResponseActivity : AppCompatActivity() {
             shouldShowRequestPermissionRationale(Manifest.permission.CAMERA) ->
                 showPermissionRationaleDialog()
             else ->
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission.CAMERA))
         }
     }
 
@@ -125,7 +176,7 @@ class AiResponseActivity : AppCompatActivity() {
             .setTitle("권한 필요")
             .setMessage("카메라 촬영을 위해 카메라 권한이 필요합니다.")
             .setPositiveButton("확인") { _, _ ->
-                requestPermissionLauncher.launch(Manifest.permission.CAMERA)
+                requestPermissionLauncher.launch(arrayOf(Manifest.permission.CAMERA))
             }
             .setNegativeButton("취소", null)
             .show()
