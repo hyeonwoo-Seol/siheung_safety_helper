@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- cacheDir/images/ 아래 파일을 FileProvider로 공유 -->
+    <cache-path
+        name="images"
+        path="images/" />
+</paths>
