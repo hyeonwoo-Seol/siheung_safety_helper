@@ -8,6 +8,8 @@ import android.content.Intent
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -31,6 +33,13 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.updatePadding
+import androidx.core.view.WindowCompat
+import android.view.Menu
+import android.view.MenuItem
+import android.app.Dialog
+import android.view.Window
 
 class AiResponseActivity : AppCompatActivity() {
     private lateinit var binding : ActivityAiResponseBinding
@@ -43,13 +52,21 @@ class AiResponseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+
         binding = ActivityAiResponseBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         val scrollView = binding.scrollView
         val selectedImageView = binding.selectedImageView
         val loadBtn = binding.loadImageButton
+
+        val toolbar = binding.toolbar
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "민원 작성하기"
+
+
+
 
 
         //다른 액티비티에서 전달 받기
@@ -174,12 +191,37 @@ class AiResponseActivity : AppCompatActivity() {
             val dialogBinding = DialogFullscreenImageBinding.inflate(layoutInflater)
             dialogBinding.fullscreenImageView.setImageDrawable(binding.selectedImageView.drawable)
 
-            AlertDialog.Builder(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
-                .setView(dialogBinding.root)
-                .setOnDismissListener{}
-                .show()
+            val dialog = Dialog(this, android.R.style.Theme_Black_NoTitleBar_Fullscreen)
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+            dialog.setContentView(dialogBinding.root)
+
+            dialog.window?.apply {
+                setBackgroundDrawable(ColorDrawable(Color.parseColor("#F3F4F6")))
+                decorView.setPadding(0,0,0,0)
+                setLayout(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+            }
+            dialog.show()
         }
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // res/menu/toolbar_menu.xml 을 툴바 메뉴로 인플레이트
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_overflow -> {
+                // TODO: Overflow 아이콘 클릭 시 동작 구현
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     private fun checkCameraPermissionAndLaunch() {

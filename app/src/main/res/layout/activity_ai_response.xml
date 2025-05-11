@@ -8,20 +8,39 @@
     android:layout_height="match_parent"
     tools:context=".AiResponseActivity"
     android:background="@color/background_color"
+    android:fitsSystemWindows="true"
     >
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:clickable="true"
+        android:theme="@style/AppTheme"
+        app:titleTextColor="@color/title_text_color"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+
+        android:clipToPadding="false"
+        android:paddingBottom="24dp"
+        >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:padding="16dp"
             tools:layout_editor_absoluteX="2dp"
             tools:layout_editor_absoluteY="4dp">
@@ -31,7 +50,7 @@
                 android:layout_width="176dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="63dp"
-                android:background="@drawable/content_round"
+                android:background="@drawable/ripple_content_round"
                 android:text="사진 불러오기"
                 android:textSize="14sp"
                 android:textColor="@color/title_text_color"
@@ -39,7 +58,11 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+
+                android:elevation="0dp"
+                android:stateListAnimator="@null"
+                />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -71,11 +94,17 @@
                     android:layout_width="0dp"
                     android:layout_height="56dp"
                     android:layout_weight="1"
-                    android:background="@drawable/content_round"
+                    android:background="@drawable/ripple_content_round"
                     android:text="전송"
                     android:textSize="14sp"
                     android:textColor="@color/title_text_color"
-                    app:backgroundTint="@null" />
+                    app:backgroundTint="@null"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="8dp"
+
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    />
             </LinearLayout>
 
             <TextView
@@ -114,12 +143,18 @@
                 android:text = "민원 전송하기"
                 android:textSize="14sp"
                 android:layout_marginTop="16dp"
-                android:background="@drawable/content_round"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/ripple_content_round"
                 android:textColor="@color/title_text_color"
                 app:backgroundTint="@null"
                 app:layout_constraintTop_toBottomOf="@id/selectedImageView"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent"
+
+                android:elevation="0dp"
+                android:stateListAnimator="@null"
+                />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
