@@ -99,7 +99,7 @@ class AiResponseActivity : AppCompatActivity() {
                     } else {
                         val err = getString(R.string.error_server, resp.code())
                         binding.responseText.text = err
-                        saveResPonseToInternalStorage(err)
+                        saveResponseToInternalStorage(err)
                     }
                 } catch (e: Exception) {
                     val err = getString(R.string.error_network, e.localizedMessage)
