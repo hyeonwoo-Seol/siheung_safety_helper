@@ -1,5 +1,5 @@
 package com.example.safetyhelper
-
+//feature big test mode
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
