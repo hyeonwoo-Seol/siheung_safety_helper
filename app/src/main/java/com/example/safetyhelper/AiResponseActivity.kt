@@ -39,6 +39,7 @@ import androidx.core.view.WindowCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.app.Dialog
+import android.content.Context
 import android.view.Window
 
 class AiResponseActivity : AppCompatActivity() {
@@ -90,15 +91,20 @@ class AiResponseActivity : AppCompatActivity() {
                         ApiRequest(location, name, issue)
                     )
                     if (resp.isSuccessful && resp.body() != null) {
-                        binding.responseText.text = resp.body()!!.result
-                        updateResponseText(resp.body()!!.result)
+                        val result = resp.body()!!.result
+                        binding.responseText.text = result
+
+                        saveResponseToInternalStorage(result)
+                        updateResponseText(result)
                     } else {
-                        binding.responseText.text = getString(R.string.error_server, resp.code())
-                        updateResponseText(getString(R.string.error_server, resp.code()))
+                        val err = getString(R.string.error_server, resp.code())
+                        binding.responseText.text = err
+                        saveResPonseToInternalStorage(err)
                     }
                 } catch (e: Exception) {
-                    binding.responseText.text = getString(R.string.error_network, e.localizedMessage)
-                    updateResponseText(getString(R.string.error_network, e.localizedMessage))
+                    val err = getString(R.string.error_network, e.localizedMessage)
+                    binding.responseText.text = err
+                    saveResponseToInternalStorage(err)
                 }
             }
         }
@@ -310,6 +316,25 @@ class AiResponseActivity : AppCompatActivity() {
         }
 
         binding.scrollView.post { binding.scrollView.fullScroll(View.FOCUS_DOWN)}
+    }
+    
+    //내용 저장하기
+    private fun saveResponseToInternalStorage(response: String) {
+        val timestamp = System.currentTimeMillis()
+        val filename = "response_${timestamp}.txt"
+        openFileOutput(filename, Context.MODE_PRIVATE).use { fos ->
+            fos.write(response.toByteArray())
+        }
+    }
+    
+    // 저장된 내용을 불러오기
+    private fun loadAllSavedResponses(): List<String> {
+        return filesDir.listFiles()
+            ?.filter { it.name.startsWith("response_") && it.name.endsWith(".txt") }
+            ?.map { file ->
+                file.readText()
+            }
+            ?: emptyList()
     }
 
 }
