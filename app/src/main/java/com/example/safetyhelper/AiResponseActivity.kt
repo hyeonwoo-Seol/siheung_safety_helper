@@ -64,7 +64,7 @@ class AiResponseActivity : AppCompatActivity() {
 
         val toolbar = binding.toolbar
         setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "민원 작성하기"
+        //supportActionBar?.title = "민원 작성하기"
 
 
 

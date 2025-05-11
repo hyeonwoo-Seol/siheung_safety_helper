@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:title="민원 작성하기"/>
+        app:title="민원작성하기(큰글씨)"/>
 
     <ScrollView
         android:id="@+id/scrollView"
