@@ -41,6 +41,7 @@
         </provider>
         <activity
             android:name=".AiResponseActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar"
             android:exported="true" />
         <activity
             android:name=".MainActivity"

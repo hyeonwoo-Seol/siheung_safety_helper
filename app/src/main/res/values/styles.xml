@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 기존 AppTheme 정의 -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- …기존 속성들… -->
+
+        <!-- 1) 오버플로우 버튼에 Ripple 배경을 입힌다 -->
+        <item name="actionOverflowButtonStyle">@style/OverflowButtonStyle</item>
+    </style>
+
+    <!-- 2) 실제 스타일 정의 -->
+    <style name="OverflowButtonStyle" parent="Widget.AppCompat.ActionButton.Overflow">
+        <!-- android:background 에 Ripple drawable 지정 -->
+        <item name="android:background">?attr/selectableItemBackgroundBorderless</item>
+    </style>
+</resources>
