@@ -1,9 +1,8 @@
 package com.example.safetyhelper
-//feature big test mode
+
 import android.Manifest
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -24,6 +23,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -39,6 +39,7 @@ import kotlinx.coroutines.launch
 import java.io.File
 
 class AiResponseActivity : AppCompatActivity() {
+
     companion object {
         private const val PREFS_NAME        = "app_settings"
         private const val KEY_BIG_TEXT_MODE = "big_text_mode"
@@ -49,57 +50,63 @@ class AiResponseActivity : AppCompatActivity() {
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var photoPickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
+    private var tempImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // 1) SharedPreferences 읽기
         prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         val isBig = prefs.getBoolean(KEY_BIG_TEXT_MODE, false)
 
-        if (!isBig) {
-            // 2a) 일반 레이아웃 바인딩
+        // 레이아웃 선택 후 툴바 설정
+        val rootView: View = if (!isBig) {
             val binding = ActivityAiResponseBinding.inflate(layoutInflater)
             setContentView(binding.root)
-
             setupToolbar(binding.toolbar, isBig)
-            setupViews(binding)
+            binding.root
         } else {
-            // 2b) 큰글씨 레이아웃 바인딩
-            val binding = ActivityAiResponseBigBinding.inflate(layoutInflater)
-            setContentView(binding.root)
-
-            setupToolbar(binding.toolbar, isBig)
-            setupViews(binding)
+            val bigBinding = ActivityAiResponseBigBinding.inflate(layoutInflater)
+            setContentView(bigBinding.root)
+            setupToolbar(bigBinding.toolbar, isBig)
+            bigBinding.root
         }
+
+        // 공통 뷰 초기화
+        setupViewsCommon(rootView)
     }
 
-    /** 툴바 클릭 시 모드 토글 & Activity 재실행 */
     private fun setupToolbar(toolbar: Toolbar, isBig: Boolean) {
         setSupportActionBar(toolbar)
         toolbar.setOnClickListener {
             prefs.edit()
                 .putBoolean(KEY_BIG_TEXT_MODE, !isBig)
                 .apply()
-            recreate()  // onCreate() 다시 실행
+            recreate()
         }
     }
 
-    /** 일반 모드 및 큰글씨 모드 공통 뷰 초기화 (ActivityAiResponseBinding) */
-    private fun setupViews(binding: ActivityAiResponseBinding) {
-        // 뷰 참조
-        val scrollView         = binding.scrollView
-        val selectedImageView  = binding.selectedImageView
-        val loadBtn            = binding.loadImageButton
-        val issueInput         = binding.issueInput
-        val sendButton         = binding.sendButton
-        val responseText       = binding.responseText
+    private fun setupViewsCommon(root: View) {
+        val scrollView        = root.findViewById<ScrollView>(R.id.scrollView)
+        val selectedImageView = root.findViewById<ImageView>(R.id.selectedImageView)
+        val loadBtn           = root.findViewById<Button>(R.id.loadImageButton)
+        val issueInput        = root.findViewById<EditText>(R.id.issueInput)
+        val sendButton        = root.findViewById<Button>(R.id.sendButton)
+        val responseText      = root.findViewById<TextView>(R.id.responseText)
 
-        // 테스트용 위치·이름 (원래는 Intent로 받으세요)
+        // 테스트용 데이터
         val location = "시흥시 정왕동 121"
         val name     = "설현우"
 
-        // 서버 요청 버튼
+        val sendImageBtn = root.findViewById<Button>(R.id.sendImageButton)
+        sendImageBtn.setOnClickListener{
+            val textToSave = root.findViewById<TextView>(R.id.responseText).text.toString().trim()
+            if (textToSave.isEmpty()) {
+                Toast.makeText(this, "저장할 텍스트가 없습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                saveResponseToInternalStorage(textToSave)
+                Toast.makeText(this, "내용이 저장되었습니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         sendButton.setOnClickListener {
             val issue = issueInput.text.toString().trim()
             if (issue.isEmpty()) {
@@ -130,7 +137,6 @@ class AiResponseActivity : AppCompatActivity() {
             }
         }
 
-        // 권한 런처 등록
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { perms ->
@@ -142,21 +148,23 @@ class AiResponseActivity : AppCompatActivity() {
                 else         -> showPermissionDeniedDialog()
             }
         }
+
         galleryLauncher = registerForActivityResult(
             ActivityResultContracts.GetContent()
-        ) { uri -> uri?.let { handleImageUri(binding, scrollView, it) } }
+        ) { uri -> uri?.let { handleImageUri(root, scrollView, it) } }
+
         photoPickerLauncher = registerForActivityResult(
             ActivityResultContracts.PickVisualMedia()
-        ) { uri -> uri?.let { handleImageUri(binding, scrollView, it) } }
+        ) { uri -> uri?.let { handleImageUri(root, scrollView, it) } }
+
         cameraLauncher = registerForActivityResult(
             ActivityResultContracts.TakePicture()
         ) { success ->
             if (success && tempImageUri != null) {
-                handleImageUri(binding, scrollView, tempImageUri!!)
+                handleImageUri(root, scrollView, tempImageUri!!)
             }
         }
 
-        // 이미지 불러오기 버튼
         loadBtn.setOnClickListener {
             AlertDialog.Builder(this)
                 .setTitle("이미지 불러오기")
@@ -177,7 +185,6 @@ class AiResponseActivity : AppCompatActivity() {
                 .show()
         }
 
-        // 전체화면 보기
         selectedImageView.setOnClickListener {
             val dialogBinding = DialogFullscreenImageBinding.inflate(layoutInflater)
             dialogBinding.fullscreenImageView.setImageDrawable(selectedImageView.drawable)
@@ -193,18 +200,51 @@ class AiResponseActivity : AppCompatActivity() {
         }
     }
 
-    /** 큰글씨 모드 레이아웃 초기화 (ActivityAiResponseBigBinding) */
-    private fun setupViews(binding: ActivityAiResponseBigBinding) {
-        // 동일한 IDs이므로, 호출하는 메서드만 바인딩 타입이 다릅니다.
-        // 나머지 코드는 setupViews(ActivityAiResponseBinding)와 완전히 동일합니다.
-        // 따라서 아래처럼 호출해도 좋습니다:
-        // (단, 임시 Uri는 class 멤버로 유지)
-        @Suppress("UNCHECKED_CAST")
-        setupViews(binding as ActivityAiResponseBinding)
+    private fun handleImageUri(root: View, scrollView: ScrollView, uri: Uri) {
+        root.findViewById<ImageView>(R.id.selectedImageView).apply {
+            visibility = View.VISIBLE
+            setImageURI(uri)
+        }
+        scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
     }
 
-    // 이하 모든 private 메서드는 기존과 동일하게 유지됩니다.
-    private var tempImageUri: Uri? = null
+    private fun updateResponseText(responseText: TextView, scrollView: ScrollView, text: String) {
+        responseText.text = text
+        responseText.post {
+            val lines      = responseText.lineCount
+            val lineHeight = responseText.lineHeight
+            val padding    = responseText.compoundPaddingTop + responseText.compoundPaddingBottom
+            (responseText.layoutParams as? ViewGroup.MarginLayoutParams)?.let { params ->
+                params.height = lines * lineHeight + padding
+                responseText.layoutParams = params
+            }
+        }
+        scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
+    }
+
+    private fun saveResponseToInternalStorage(response: String) {
+        val timestamp = System.currentTimeMillis()
+        val filename  = "response_$timestamp.txt"
+        openFileOutput(filename, Context.MODE_PRIVATE).use { fos ->
+            fos.write(response.toByteArray())
+        }
+    }
+
+    private fun loadAllSavedResponses(): List<String> =
+        filesDir.listFiles()
+            ?.filter { it.name.startsWith("response_") && it.name.endsWith(".txt") }
+            ?.map { file -> file.readText() } ?: emptyList()
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.toolbar_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.action_overflow -> true
+            else                 -> super.onOptionsItemSelected(item)
+        }
 
     private fun checkCameraPermissionAndLaunch() {
         when {
@@ -259,60 +299,4 @@ class AiResponseActivity : AppCompatActivity() {
         val authority = "$packageName.provider"
         return FileProvider.getUriForFile(this, authority, imageFile)
     }
-
-    private fun handleImageUri(
-        binding: ActivityAiResponseBinding,
-        scrollView: ScrollView,
-        uri: Uri
-    ) {
-        binding.selectedImageView.apply {
-            visibility = View.VISIBLE
-            setImageURI(uri)
-        }
-        scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
-    }
-
-    private fun updateResponseText(
-        responseText: TextView,
-        scrollView: ScrollView,
-        text: String
-    ) {
-        responseText.text = text
-        responseText.post {
-            val lines     = responseText.lineCount
-            val lineHeight = responseText.lineHeight
-            val padding    = responseText.compoundPaddingTop +
-                    responseText.compoundPaddingBottom
-            (responseText.layoutParams as? ViewGroup.MarginLayoutParams)?.let { params ->
-                params.height = lines * lineHeight + padding
-                responseText.layoutParams = params
-            }
-        }
-        scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
-    }
-
-    private fun saveResponseToInternalStorage(response: String) {
-        val timestamp = System.currentTimeMillis()
-        val filename  = "response_$timestamp.txt"
-        openFileOutput(filename, Context.MODE_PRIVATE).use { fos ->
-            fos.write(response.toByteArray())
-        }
-    }
-
-    private fun loadAllSavedResponses(): List<String> =
-        filesDir.listFiles()
-            ?.filter { it.name.startsWith("response_") && it.name.endsWith(".txt") }
-            ?.map { file -> file.readText() }
-            ?: emptyList()
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
-            R.id.action_overflow -> true
-            else                 -> super.onOptionsItemSelected(item)
-        }
 }
