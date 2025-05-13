@@ -49,22 +49,21 @@
 
             <Button
                 android:id="@+id/loadImageButton"
-                android:layout_width="176dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="63dp"
+                android:layout_width="377dp"
+                android:layout_height="79dp"
+                android:layout_marginTop="8dp"
                 android:background="@drawable/ripple_content_round"
-                android:text="사진 불러오기"
-                android:textSize="14sp"
-                android:textColor="@color/title_text_color"
-                app:backgroundTint="@null"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
-                />
+                android:text="사진 불러오기"
+                android:textColor="@color/title_text_color"
+                android:textSize="14sp"
+                app:backgroundTint="@null"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -82,19 +81,19 @@
                 <EditText
                     android:id="@+id/issueInput"
                     android:layout_width="0dp"
-                    android:layout_height="56dp"
+                    android:layout_height="100dp"
                     android:layout_marginEnd="24dp"
                     android:layout_weight="3"
                     android:background="@drawable/content_round"
                     android:hint="문제 사항을 입력해주세요"
-                    android:textColorHint="@color/content_text_color"
                     android:padding="12dp"
-                    android:textSize="14sp"/>
+                    android:textColorHint="@color/content_text_color"
+                    android:textSize="14sp" />
 
                 <Button
                     android:id="@+id/sendButton"
                     android:layout_width="0dp"
-                    android:layout_height="56dp"
+                    android:layout_height="100dp"
                     android:layout_weight="1"
                     android:background="@drawable/ripple_content_round"
                     android:text="전송"
