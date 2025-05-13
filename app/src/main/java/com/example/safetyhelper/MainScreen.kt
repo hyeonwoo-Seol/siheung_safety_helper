@@ -64,6 +64,11 @@ class MainScreen : AppCompatActivity() {
             val intent = Intent(this, AiResponseActivity::class.java)
             startActivity(intent)
         }
+        // (임시)민원 목록 버튼 (임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)
+        findViewById<Button>(R.id.btnComplaintList).setOnClickListener {
+            startActivity(Intent(this, ComplaintListActivity::class.java))
+        }
+
     }
     private fun saveSampleNotice(prefs: SharedPreferences) {
         // 임의로 만든 공지 예시

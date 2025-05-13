@@ -33,6 +33,13 @@
 
             android:textSize="10sp"
             app:backgroundTint="@null" />
+
+        <Button
+            android:id="@+id/btnComplaintList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="민원 목록 버튼(임시)" />
     </LinearLayout>
 
     <LinearLayout
