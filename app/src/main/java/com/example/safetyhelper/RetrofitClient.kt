@@ -8,7 +8,7 @@ import retrofit2.http.POST
 
 object RetrofitClient {
     private val retrofit = Retrofit.Builder()
-        .baseUrl("http://192.168.0.22:9000/") // 에뮬레이터라면 10.0.2.2, 실기기라면 서버 IP
+        .baseUrl("http://220.120.3.8:9000/") // 에뮬레이터라면 10.0.2.2, 실기기라면 서버 IP
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
