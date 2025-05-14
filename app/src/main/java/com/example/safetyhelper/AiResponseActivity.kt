@@ -122,17 +122,17 @@ class AiResponseActivity : AppCompatActivity() {
                     if (resp.isSuccessful && resp.body() != null) {
                         val result = resp.body()!!.result
                         responseText.text = result
-                        saveResponseToInternalStorage(result)
+
                         updateResponseText(responseText, scrollView, result)
                     } else {
                         val err = getString(R.string.error_server, resp.code())
                         responseText.text = err
-                        saveResponseToInternalStorage(err)
+
                     }
                 } catch (e: Exception) {
                     val err = getString(R.string.error_network, e.localizedMessage)
                     responseText.text = err
-                    saveResponseToInternalStorage(err)
+
                 }
             }
         }
