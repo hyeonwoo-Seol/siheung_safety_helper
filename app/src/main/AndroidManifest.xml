@@ -32,9 +32,6 @@
         <activity
             android:name=".ComplaintListActivity"
             android:exported="false" />
-        <activity
-            android:name=".ComplaintRepository"
-            android:exported="false" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -3,7 +3,6 @@ package com.example.safetyhelper
 import android.os.Bundle
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.safetyhelper.repository.ComplaintRepository
 
 class ComplaintDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

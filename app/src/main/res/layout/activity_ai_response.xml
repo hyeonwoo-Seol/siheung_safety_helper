@@ -120,8 +120,8 @@
                 android:gravity="top|start"
                 android:padding="12dp"
                 android:textSize="14sp"
-                android:text="서버 응답이 여기에 표시됩니다"
-                android:textColor="@color/content_text_color"
+                android:hint="서버 응답이 여기에 표시됩니다"
+                android:textColor="@color/title_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
