@@ -24,17 +24,19 @@ class ComplaintListActivity : AppCompatActivity() {
 
         // 2) 파일마다 Complaint 객체로 변환
         val complaints = files.mapIndexed { idx, file ->
+            // ① 파일명에서 timestamp(밀리초) 추출
+            val ts = file.name
+                .removePrefix("response_")
+                .removeSuffix(".txt")
+                .toLongOrNull()
+                ?: System.currentTimeMillis()
+
+            // ② 작성 일시를 "yyyy.MM.dd HH:mm" 형식으로 포맷
+            val title = SimpleDateFormat("yyyy.MM.dd HH:mm", Locale.getDefault())
+                .format(Date(ts))
+
+            // ③ 파일 전체 내용 읽기
             val content = file.readText().trim()
-
-            // "제목:" 뒤에서 "내용:" 앞까지 잘라서 제목으로 사용
-            val titleRaw = content
-                .substringAfter("제목:", missingDelimiterValue = "")
-                .substringBefore("내용:", missingDelimiterValue = "")
-                .trim()
-
-            // 길면 30자만, 뒤에 … 추가
-            val title = if (titleRaw.length <= 30) titleRaw
-            else titleRaw.take(30) + "…"
 
             Complaint(id = idx, title = title, content = content)
         }
