@@ -29,7 +29,7 @@
             android:background="@drawable/ripple_content_round"
             android:elevation="0dp"
             android:stateListAnimator="@null"
-            android:text="큰 글씨 모드"
+            android:text="일반 모드"
             android:textColor="@color/title_text_color"
 
             android:textSize="20sp"

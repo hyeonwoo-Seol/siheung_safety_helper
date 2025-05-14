@@ -32,7 +32,7 @@
             android:text="큰 글씨 모드"
             android:textColor="@color/title_text_color"
 
-            android:textSize="10sp"
+            android:textSize="20sp"
             app:backgroundTint="@null" />
 
         <Button
