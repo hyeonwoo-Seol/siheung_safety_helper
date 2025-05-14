@@ -20,7 +20,7 @@ class MainScreen : AppCompatActivity() {
     private lateinit var btnBigString: Button
 
     companion object {
-        private const val PREFS_NAME   = "notices_prefs"
+        private const val PREFS_NAME   = "app_settings"
         private const val KEY_ANNOUNCE = "latest_notice"
         private const val KEY_BIG_TEXT_MODE = "big_text_mode"  // ★추가
     }

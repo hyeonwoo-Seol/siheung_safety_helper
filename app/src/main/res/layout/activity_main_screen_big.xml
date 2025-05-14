@@ -16,7 +16,8 @@
         android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="3dp">
+        tools:layout_editor_absoluteX="3dp"
+        android:fitsSystemWindows="true">
 
         <Button
             android:id="@+id/btnBigString"
@@ -33,6 +34,17 @@
 
             android:textSize="20sp"
             app:backgroundTint="@null" />
+        <Button
+            android:id="@+id/btnComplaintList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="민원 목록 버튼(임시)"
+            android:textSize="20sp"
+            android:background="@drawable/ripple_content_round"
+            android:textColor="@color/title_text_color"/>
+
     </LinearLayout>
 
     <LinearLayout
@@ -106,6 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
+            android:gravity="center_vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
