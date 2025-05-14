@@ -16,7 +16,8 @@
         android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="3dp">
+        tools:layout_editor_absoluteX="3dp"
+        android:fitsSystemWindows="true">
 
         <Button
             android:id="@+id/btnBigString"
@@ -103,19 +104,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ripple_content_round"
-        android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_gravity="center"
+        >
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_gravity="center" >
 
             <Button
                 android:id="@+id/btnWrite"
