@@ -106,76 +106,58 @@
         android:background="@drawable/ripple_content_round"
         android:theme="?attr/actionBarTheme"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         android:layout_gravity="center"
-        >
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+        <!-- 버튼을 가로 중앙에 모으기 위해 gravity=center -->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_gravity="center" >
+            android:gravity="center"
+            android:paddingVertical="8dp">
 
             <Button
                 android:id="@+id/btnWrite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-
+                android:layout_marginHorizontal="8dp"
                 android:background="@drawable/ripple_content_round"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
                 android:text="민원 작성"
                 android:textColor="@color/title_text_color"
                 android:textSize="14sp"
-
-                app:backgroundTint="@null"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:backgroundTint="@null"/>
 
             <Button
                 android:id="@+id/btnHome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-
+                android:layout_marginHorizontal="8dp"
                 android:background="@drawable/ripple_content_round"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
                 android:text="홈 화면"
                 android:textColor="@color/title_text_color"
                 android:textSize="14sp"
-
-                app:backgroundTint="@null"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:backgroundTint="@null"/>
 
             <Button
                 android:id="@+id/btnOption"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-
+                android:layout_marginHorizontal="8dp"
                 android:background="@drawable/ripple_content_round"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
                 android:text="옵션"
                 android:textColor="@color/title_text_color"
                 android:textSize="14sp"
+                app:backgroundTint="@null"/>
 
-                app:backgroundTint="@null"
-                app:layout_constraintBottom_toBottomOf="parent" />
         </LinearLayout>
     </androidx.appcompat.widget.Toolbar>
+
 </androidx.appcompat.widget.LinearLayoutCompat>
