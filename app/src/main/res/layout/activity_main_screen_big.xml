@@ -34,23 +34,13 @@
 
             android:textSize="20sp"
             app:backgroundTint="@null" />
-        <Button
-            android:id="@+id/btnComplaintList"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:text="민원 목록 버튼(임시)"
-            android:textSize="20sp"
-            android:background="@drawable/ripple_content_round"
-            android:textColor="@color/title_text_color"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="16dp"
@@ -66,8 +56,8 @@
         <TextView
             android:id="@+id/announcement"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:minHeight="100dp"
             android:background="@drawable/content_round"
 
             android:gravity="top|start"

@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_overflow"
+        android:id="@+id/action_complaint_list"
         android:icon="@drawable/ic_menu"
         android:title="메뉴"
         app:showAsAction="always" />

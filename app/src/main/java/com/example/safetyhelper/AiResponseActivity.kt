@@ -57,6 +57,11 @@ class AiResponseActivity : AppCompatActivity() {
         prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         val isBig = prefs.getBoolean(KEY_BIG_TEXT_MODE, false)
 
+        window.statusBarColor = Color.WHITE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        }
+
         // 레이아웃 선택 후 툴바 설정
         val rootView: View = if (!isBig) {
             val binding = ActivityAiResponseBinding.inflate(layoutInflater)
@@ -242,8 +247,12 @@ class AiResponseActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when (item.itemId) {
-            R.id.action_overflow -> true
-            else                 -> super.onOptionsItemSelected(item)
+            R.id.action_complaint_list -> {
+                val intent = Intent(this, ComplaintListActivity::class.java)
+                startActivity(intent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
         }
 
     private fun checkCameraPermissionAndLaunch() {

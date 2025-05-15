@@ -58,15 +58,10 @@ class MainScreen : AppCompatActivity() {
         // 2) 저장된 공지 불러와서 화면에 반영
         loadNoticeIntoView(prefs)
 
-        // (임시) 버튼 뷰 참조 ----------------------------------------------------------------------
-        val btnAiResponse = findViewById<Button>(R.id.btnWrite)
-        btnAiResponse.setOnClickListener{
+        val btnWrite = findViewById<Button>(R.id.btnWrite)
+        btnWrite.setOnClickListener {
             val intent = Intent(this, AiResponseActivity::class.java)
             startActivity(intent)
-        }
-        // (임시)민원 목록 버튼 (임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)(임시)
-        findViewById<Button>(R.id.btnComplaintList).setOnClickListener {
-            startActivity(Intent(this, ComplaintListActivity::class.java))
         }
 
     }

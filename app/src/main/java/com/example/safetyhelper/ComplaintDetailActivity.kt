@@ -1,7 +1,10 @@
 package com.example.safetyhelper
 
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
+import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
@@ -26,6 +29,11 @@ class ComplaintDetailActivity : AppCompatActivity() {
             setContentView(R.layout.activity_complaint_detail_big)
         } else {
             setContentView(R.layout.activity_complaint_detail)
+        }
+
+        window.statusBarColor = Color.WHITE
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
         // 툴바 설정 & 클릭 시 모드 토글
