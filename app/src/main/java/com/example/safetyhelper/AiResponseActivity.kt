@@ -35,7 +35,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import com.example.safetyhelper.databinding.ActivityAiResponseBigBinding
 import com.example.safetyhelper.databinding.ActivityAiResponseBinding
@@ -47,8 +46,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 //firebase에 이미지를 보낼 때 사용하는 import문
 // import com.google.firebase.storage.ktx.storage
@@ -58,7 +55,6 @@ class AiResponseActivity : AppCompatActivity() {
     companion object {
         private const val PREFS_NAME        = "app_settings"
         private const val KEY_BIG_TEXT_MODE = "big_text_mode"
-        private const val KEY_MIC_TIP_DATE = "mic_tip_date"
     }
 
     private lateinit var prefs: SharedPreferences
@@ -114,21 +110,16 @@ class AiResponseActivity : AppCompatActivity() {
         // 공통 뷰 초기화
         setupViewsCommon(rootView)
 
-        // 오늘 하루 보지 않기 여부 확인 후 팝업
-        val lastDate = prefs.getString(KEY_MIC_TIP_DATE, "")
-        val today = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Date())
-        if (lastDate != today) showMicTipDialog(today)
+        showMicTipDialog()
     }
 
-    private fun showMicTipDialog(today: String) {
-        MaterialAlertDialogBuilder(this)
+    private fun showMicTipDialog() {
+        AlertDialog.Builder(this)
             .setMessage("키보드 왼쪽 하단에 있는 마이크 모양을 터치하시면 말로 글자를 입력할 수 있습니다")
-            .setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
-            .setNeutralButton("오늘 하루 보지 않기") { dialog, _ ->
-                prefs.edit { putString(KEY_MIC_TIP_DATE, today) }
+            .setPositiveButton("확인") { dialog, _ ->
                 dialog.dismiss()
             }
-            .setCancelable(false)
+            .setCancelable(true)  // 백버튼으로도 닫히지 않게 설정
             .show()
     }
 
