@@ -46,6 +46,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth-ktx")
     // implementation 'com.google.firebase:firebase-storage-ktx' //이미지를 firebase에 보낼 때 사용
 
+
     implementation(libs.androidx.core.ktx)
     implementation("androidx.activity:activity-ktx:1.10.1")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")

@@ -39,6 +39,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.safetyhelper.databinding.ActivityAiResponseBigBinding
 import com.example.safetyhelper.databinding.ActivityAiResponseBinding
 import com.example.safetyhelper.databinding.DialogFullscreenImageBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -119,6 +120,8 @@ class AiResponseActivity : AppCompatActivity() {
             recreate()
         }
     }
+
+
 
     private fun setupViewsCommon(root: View) {
         val scrollView        = root.findViewById<ScrollView>(R.id.scrollView)
