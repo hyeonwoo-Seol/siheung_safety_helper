@@ -12,7 +12,6 @@
         android:id="@+id/toolbar_list"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/ripple_content_round"
         app:title="작성된 민원 목록"
 
         android:foreground="?attr/selectableItemBackgroundBorderless"

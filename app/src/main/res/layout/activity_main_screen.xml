@@ -7,7 +7,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainScreen"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/background_color">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -77,7 +78,7 @@
                 android:padding="12dp"
                 android:text="announcement"
                 android:textColor="@color/content_text_color"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintTop_toBottomOf="@id/title"
                 app:layout_constraintStart_toStartOf="parent"
@@ -107,7 +108,7 @@
                     android:stateListAnimator="@null"
                     android:text="민원 작성"
                     android:textColor="@color/title_text_color"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     app:backgroundTint="@null" />
 
                 <Button
@@ -121,7 +122,7 @@
                     android:stateListAnimator="@null"
                     android:text="작성된 민원으로 가기"
                     android:textColor="@color/title_text_color"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     app:backgroundTint="@null" />
             </LinearLayout>
             <LinearLayout
@@ -148,7 +149,7 @@
                     android:stateListAnimator="@null"
                     android:text="시흥시 공지사항 (바로가기)"
                     android:textColor="@color/title_text_color"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     app:backgroundTint="@null" />
 
 
@@ -163,7 +164,7 @@
                     android:stateListAnimator="@null"
                     android:text="시흥톡                   (바로가기)"
                     android:textColor="@color/title_text_color"
-                    android:textSize="14sp"
+                    android:textSize="20sp"
                     app:backgroundTint="@null" />
 
 
