@@ -35,6 +35,8 @@ import androidx.lifecycle.lifecycleScope
 import com.example.safetyhelper.databinding.ActivityAiResponseBigBinding
 import com.example.safetyhelper.databinding.ActivityAiResponseBinding
 import com.example.safetyhelper.databinding.DialogFullscreenImageBinding
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -51,9 +53,13 @@ class AiResponseActivity : AppCompatActivity() {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var photoPickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
     private var tempImageUri: Uri? = null
+    private var selectedImageUri: Uri? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Firebase 초기화
+        FirebaseApp.initializeApp(this)
+
         prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         val isBig = prefs.getBoolean(KEY_BIG_TEXT_MODE, false)
 
@@ -96,19 +102,20 @@ class AiResponseActivity : AppCompatActivity() {
         val issueInput        = root.findViewById<EditText>(R.id.issueInput)
         val sendButton        = root.findViewById<Button>(R.id.sendButton)
         val responseText      = root.findViewById<TextView>(R.id.responseText)
+        val sendImageBtn      = root.findViewById<Button>(R.id.sendImageButton)
 
         // 테스트용 데이터
         val location = "시흥시 정왕동 121"
         val name     = "설현우"
 
-        val sendImageBtn = root.findViewById<Button>(R.id.sendImageButton)
-        sendImageBtn.setOnClickListener{
-            val textToSave = root.findViewById<TextView>(R.id.responseText).text.toString().trim()
+        sendImageBtn.setOnClickListener {
+            val textToSave = responseText.text.toString().trim()
             if (textToSave.isEmpty()) {
                 Toast.makeText(this, "저장할 텍스트가 없습니다.", Toast.LENGTH_SHORT).show()
             } else {
                 saveResponseToInternalStorage(textToSave)
-                Toast.makeText(this, "내용이 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                uploadResponseToFirebase(textToSave)
+                Toast.makeText(this, "텍스트가 저장되고 Firebase에 업로드되었습니다.", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -132,12 +139,10 @@ class AiResponseActivity : AppCompatActivity() {
                     } else {
                         val err = getString(R.string.error_server, resp.code())
                         responseText.text = err
-
                     }
                 } catch (e: Exception) {
                     val err = getString(R.string.error_network, e.localizedMessage)
                     responseText.text = err
-
                 }
             }
         }
@@ -206,6 +211,7 @@ class AiResponseActivity : AppCompatActivity() {
     }
 
     private fun handleImageUri(root: View, scrollView: ScrollView, uri: Uri) {
+        selectedImageUri = uri
         root.findViewById<ImageView>(R.id.selectedImageView).apply {
             visibility = View.VISIBLE
             setImageURI(uri)
@@ -235,10 +241,21 @@ class AiResponseActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadAllSavedResponses(): List<String> =
-        filesDir.listFiles()
-            ?.filter { it.name.startsWith("response_") && it.name.endsWith(".txt") }
-            ?.map { file -> file.readText() } ?: emptyList()
+    /**
+     * Firebase Firestore에 텍스트 저장
+     */
+    private fun uploadResponseToFirebase(text: String) {
+        val db = FirebaseFirestore.getInstance()
+        val timestamp = System.currentTimeMillis()
+        val data = mapOf(
+            "text" to text,
+            "timestamp" to timestamp
+        )
+        db.collection("responses")
+            .add(data)
+            .addOnSuccessListener { Toast.makeText(this, "Firebase 저장 성공", Toast.LENGTH_SHORT).show() }
+            .addOnFailureListener { e -> Toast.makeText(this, "Firebase 저장 실패: ${e.message}", Toast.LENGTH_SHORT).show() }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
