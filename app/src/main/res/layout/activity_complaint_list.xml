@@ -5,14 +5,14 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    >
 
     <!-- ① 툴바를 LinearLayout 최상단에 추가 -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar_list"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@drawable/ripple_content_round"
         app:title="작성된 민원 목록"
 
         android:foreground="?attr/selectableItemBackgroundBorderless"
