@@ -1,174 +1,179 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="bottom"
-    tools:context=".MainScreen">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout3"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="3dp"
-        android:fitsSystemWindows="true">
-
-        <Button
-            android:id="@+id/btnBigString"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-
-            android:layout_marginEnd="8dp"
-            android:background="@drawable/ripple_content_round"
-            android:elevation="0dp"
-            android:stateListAnimator="@null"
-            android:text="일반 모드"
-            android:textColor="@color/title_text_color"
-
-            android:textSize="20sp"
-            app:backgroundTint="@null" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="16dp"
-        tools:layout_editor_absoluteX="4dp"
-        tools:layout_editor_absoluteY="49dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="공지사항"
-            android:textSize="40sp" />
-
-        <TextView
-            android:id="@+id/announcement"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="100dp"
-            android:background="@drawable/content_round"
-
-            android:gravity="top|start"
-            android:padding="12dp"
-            android:text="announcement"
-            android:textColor="@color/content_text_color"
-            android:textSize="28sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        tools:layout_editor_absoluteX="1dp">
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/content_round"
-
-            android:gravity="top|start"
-            android:padding="12dp"
-            android:text="nothing"
-            android:textColor="@color/content_text_color"
-            android:textSize="28sp" />
-
-    </LinearLayout>
-
-
+    tools:context=".MainScreen"
+    android:fitsSystemWindows="true">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ripple_content_round"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:elevation="4dp"
+        android:clickable="true"
+        android:theme="@style/AppTheme"
+        app:titleTextColor="@color/title_text_color"
+        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-        <LinearLayout
+
+        app:title="시흥시 민원 도우미"/>
+
+    <!-- ScrollView -->
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        android:clipToPadding="false"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- ScrollView 내부는 반드시 하나의 자식만 가능 -->
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:padding="16dp">
 
             <Button
-                android:id="@+id/btnWrite"
-                android:layout_width="0dp"
+                android:id="@+id/btnBigString"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
-
                 android:background="@drawable/ripple_content_round"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
-                android:text="민원   작성"
+                android:text="일반 모드"
                 android:textColor="@color/title_text_color"
                 android:textSize="20sp"
-
                 app:backgroundTint="@null"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/btnHome"
-                android:layout_width="0dp"
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
+                android:layout_marginTop="28dp"
+                android:text="공지사항"
+                android:textSize="40sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnBigString" />
 
-                android:background="@drawable/ripple_content_round"
-                android:elevation="0dp"
-                android:stateListAnimator="@null"
-                android:text="홈 화면"
-                android:textColor="@color/title_text_color"
-                android:textSize="20sp"
-
-                app:backgroundTint="@null"
-                app:layout_constraintBottom_toBottomOf="parent" />
-
-            <Button
-                android:id="@+id/btnOption"
+            <TextView
+                android:id="@+id/announcement"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
-                android:layout_weight="1"
+                android:minHeight="150dp"
+                android:background="@drawable/content_round"
+                android:gravity="top|start"
+                android:padding="12dp"
+                android:text="announcement"
+                android:textColor="@color/content_text_color"
+                android:textSize="25sp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-                android:background="@drawable/ripple_content_round"
-                android:elevation="0dp"
-                android:stateListAnimator="@null"
-                android:text="옵션"
-                android:textColor="@color/title_text_color"
-                android:textSize="20sp"
+            <LinearLayout
+                android:id="@+id/linearLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/announcement">
 
-                app:backgroundTint="@null"
-                app:layout_constraintBottom_toBottomOf="parent" />
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
-</androidx.appcompat.widget.LinearLayoutCompat>
+                <Button
+                    android:id="@+id/move_ai_response"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:background="@drawable/ripple_content_round"
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="민원 작성"
+                    android:textColor="@color/title_text_color"
+                    android:textSize="30sp"
+                    app:backgroundTint="@null" />
+
+                <Button
+                    android:id="@+id/move_response_detail"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/ripple_content_round"
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="작성된   민원으로 가기"
+                    android:textColor="@color/title_text_color"
+                    android:textSize="30sp"
+                    app:backgroundTint="@null" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="2"
+                android:gravity="center_vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+
+                <Button
+                    android:id="@+id/move_site1"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/ripple_content_round"
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="시흥시 공지사항 (바로가기)"
+                    android:textColor="@color/title_text_color"
+                    android:textSize="30sp"
+                    app:backgroundTint="@null" />
+
+
+                <Button
+                    android:id="@+id/move_site2"
+                    android:layout_width="0dp"
+                    android:layout_height="250dp"
+                    android:layout_weight="1"
+                    android:layout_marginStart="16dp"
+                    android:background="@drawable/ripple_content_round"
+                    android:elevation="0dp"
+                    android:stateListAnimator="@null"
+                    android:text="시흥톡                   (바로가기)"
+                    android:textColor="@color/title_text_color"
+                    android:textSize="30sp"
+                    app:backgroundTint="@null" />
+
+
+
+
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

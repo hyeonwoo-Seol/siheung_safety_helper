@@ -101,7 +101,6 @@
                     android:textColor="@color/title_text_color"
                     app:backgroundTint="@null"
                     android:layout_marginEnd="8dp"
-
                     android:elevation="0dp"
                     android:stateListAnimator="@null"
                     />
