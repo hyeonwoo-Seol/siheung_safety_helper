@@ -130,11 +130,11 @@ class AiResponseActivity : AppCompatActivity() {
         sendImageBtn.setOnClickListener {
             val textToSave = responseText.text.toString().trim()
             if (textToSave.isEmpty()) {
-                Toast.makeText(this, "저장할 텍스트가 없습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "전송할 민원이 없습니다. 내용을 작성 후 전송 버튼을 눌러주세요", Toast.LENGTH_SHORT).show()
             } else {
                 saveResponseToInternalStorage(textToSave)
                 uploadResponseToFirebase(textToSave)
-                Toast.makeText(this, "텍스트가 저장되고 Firebase에 업로드되었습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "민원을 성공적으로 전송했습니다.", Toast.LENGTH_SHORT).show()
 
                 // 텍스트 초기화 및 MainScreen으로 이동
                 responseText.text = ""
@@ -320,8 +320,7 @@ class AiResponseActivity : AppCompatActivity() {
         )
         db.collection("responses")
             .add(data)
-            .addOnSuccessListener { Toast.makeText(this, "Firebase 저장 성공", Toast.LENGTH_SHORT).show() }
-            .addOnFailureListener { e -> Toast.makeText(this, "Firebase 저장 실패: ${e.message}", Toast.LENGTH_SHORT).show() }
+            .addOnFailureListener { e -> Toast.makeText(this, "민원 전송 실패: ${e.message}", Toast.LENGTH_SHORT).show() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
