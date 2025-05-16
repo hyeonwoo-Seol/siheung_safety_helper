@@ -109,6 +109,18 @@ class AiResponseActivity : AppCompatActivity() {
 
         // 공통 뷰 초기화
         setupViewsCommon(rootView)
+
+        showMicTipDialog()
+    }
+
+    private fun showMicTipDialog() {
+        AlertDialog.Builder(this)
+            .setMessage("키보드 왼쪽 하단에 있는 마이크 모양을 터치하시면 말로 글자를 입력할 수 있습니다")
+            .setPositiveButton("확인") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setCancelable(true)  // 백버튼으로도 닫히지 않게 설정
+            .show()
     }
 
     private fun setupToolbar(toolbar: Toolbar, isBig: Boolean) {
