@@ -9,10 +9,14 @@ import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.location.Geocoder
+import android.location.Location
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -35,8 +39,13 @@ import androidx.lifecycle.lifecycleScope
 import com.example.safetyhelper.databinding.ActivityAiResponseBigBinding
 import com.example.safetyhelper.databinding.ActivityAiResponseBinding
 import com.example.safetyhelper.databinding.DialogFullscreenImageBinding
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.IOException
+import java.util.Locale
 
 class AiResponseActivity : AppCompatActivity() {
 
@@ -50,12 +59,32 @@ class AiResponseActivity : AppCompatActivity() {
     private lateinit var cameraLauncher: ActivityResultLauncher<Uri>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<Array<String>>
     private lateinit var photoPickerLauncher: ActivityResultLauncher<PickVisualMediaRequest>
+    private lateinit var locationPermissionLauncher: ActivityResultLauncher<String>
+
     private var tempImageUri: Uri? = null
+    private var selectedImageUri: Uri? = null
+    private var locationString: String = ""
+    private val name = "설현우"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        // Firebase 초기화
+        FirebaseApp.initializeApp(this)
+
         prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         val isBig = prefs.getBoolean(KEY_BIG_TEXT_MODE, false)
+
+        // 위치 권한 요청
+        locationPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted ->
+            if (isGranted) {
+                fetchLocation()
+            } else {
+                Toast.makeText(this, "위치 권한이 필요합니다.", Toast.LENGTH_SHORT).show()
+            }
+        }
+        locationPermissionLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
 
         window.statusBarColor = Color.WHITE
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -96,19 +125,22 @@ class AiResponseActivity : AppCompatActivity() {
         val issueInput        = root.findViewById<EditText>(R.id.issueInput)
         val sendButton        = root.findViewById<Button>(R.id.sendButton)
         val responseText      = root.findViewById<TextView>(R.id.responseText)
+        val sendImageBtn      = root.findViewById<Button>(R.id.sendImageButton)
 
-        // 테스트용 데이터
-        val location = "시흥시 정왕동 121"
-        val name     = "설현우"
-
-        val sendImageBtn = root.findViewById<Button>(R.id.sendImageButton)
-        sendImageBtn.setOnClickListener{
-            val textToSave = root.findViewById<TextView>(R.id.responseText).text.toString().trim()
+        sendImageBtn.setOnClickListener {
+            val textToSave = responseText.text.toString().trim()
             if (textToSave.isEmpty()) {
-                Toast.makeText(this, "저장할 텍스트가 없습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "전송할 민원이 없습니다. 내용을 작성 후 전송 버튼을 눌러주세요", Toast.LENGTH_SHORT).show()
             } else {
                 saveResponseToInternalStorage(textToSave)
-                Toast.makeText(this, "내용이 저장되었습니다.", Toast.LENGTH_SHORT).show()
+                uploadResponseToFirebase(textToSave)
+                Toast.makeText(this, "민원을 성공적으로 전송했습니다.", Toast.LENGTH_SHORT).show()
+
+                // 텍스트 초기화 및 MainScreen으로 이동
+                responseText.text = ""
+                val intent = Intent(this@AiResponseActivity, MainScreen::class.java)
+                startActivity(intent)
+                finish()
             }
         }
 
@@ -122,26 +154,24 @@ class AiResponseActivity : AppCompatActivity() {
                 responseText.text = "요청 중..."
                 try {
                     val resp = RetrofitClient.apiService.getLLMResponse(
-                        ApiRequest(location, name, issue)
+                        ApiRequest(locationString, name, issue)
                     )
                     if (resp.isSuccessful && resp.body() != null) {
                         val result = resp.body()!!.result
                         responseText.text = result
-
                         updateResponseText(responseText, scrollView, result)
                     } else {
                         val err = getString(R.string.error_server, resp.code())
                         responseText.text = err
-
                     }
                 } catch (e: Exception) {
                     val err = getString(R.string.error_network, e.localizedMessage)
                     responseText.text = err
-
                 }
             }
         }
 
+        // 위치 권한 외의 기존 권한/뷰 초기화 로직 유지
         requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestMultiplePermissions()
         ) { perms ->
@@ -205,7 +235,50 @@ class AiResponseActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * 위치 정보를 가져와 주소 문자열로 변환
+     */
+    private fun fetchLocation() {
+        val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED) return
+
+        val lastLoc: Location? = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            ?: locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+        lastLoc?.let {
+            val lat = it.latitude
+            val lng = it.longitude
+            val geocoder = Geocoder(this, Locale.KOREA)
+            val list = geocoder.getFromLocation(lat, lng, 1)  // 네트워크 기반 리버스 지오코딩
+            if (!list.isNullOrEmpty()) {
+                val addr = list[0]
+                // 1) 도로명
+                val roadName      = addr.thoroughfare ?: ""
+                // 2) 건물 번호
+                val buildingNum   = addr.subThoroughfare ?: ""
+                // 3) 동·읍·면 정보 (필요시)
+                val subLocality   = addr.subLocality   ?: ""
+                // 4) 시·도, 구·군
+                val locality      = addr.locality      ?: ""
+                val adminArea     = addr.adminArea     ?: ""
+
+                // 원하는 포맷으로 조합
+                locationString = buildString {
+                    if (adminArea.isNotEmpty()) append(adminArea)
+                    if (locality   .isNotEmpty()) append(" $locality")
+                    if (subLocality.isNotEmpty()) append(" $subLocality")
+                    if (roadName   .isNotEmpty()) append(" $roadName")
+                    if (buildingNum.isNotEmpty()) append(" $buildingNum")
+                }.trim()
+
+                Log.d("AiResponseActivity", "locationString = $locationString")
+            }
+        }
+    }
+
     private fun handleImageUri(root: View, scrollView: ScrollView, uri: Uri) {
+        selectedImageUri = uri
         root.findViewById<ImageView>(R.id.selectedImageView).apply {
             visibility = View.VISIBLE
             setImageURI(uri)
@@ -235,10 +308,20 @@ class AiResponseActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadAllSavedResponses(): List<String> =
-        filesDir.listFiles()
-            ?.filter { it.name.startsWith("response_") && it.name.endsWith(".txt") }
-            ?.map { file -> file.readText() } ?: emptyList()
+    /**
+     * Firebase Firestore에 텍스트 저장
+     */
+    private fun uploadResponseToFirebase(text: String) {
+        val db = Firebase.firestore
+        val timestamp = System.currentTimeMillis()
+        val data = mapOf(
+            "text" to text,
+            "timestamp" to timestamp
+        )
+        db.collection("responses")
+            .add(data)
+            .addOnFailureListener { e -> Toast.makeText(this, "민원 전송 실패: ${e.message}", Toast.LENGTH_SHORT).show() }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
