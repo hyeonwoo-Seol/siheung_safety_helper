@@ -36,7 +36,8 @@ import com.example.safetyhelper.databinding.ActivityAiResponseBigBinding
 import com.example.safetyhelper.databinding.ActivityAiResponseBinding
 import com.example.safetyhelper.databinding.DialogFullscreenImageBinding
 import com.google.firebase.FirebaseApp
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.firestore.ktx.firestore
 import kotlinx.coroutines.launch
 import java.io.File
 
@@ -134,7 +135,6 @@ class AiResponseActivity : AppCompatActivity() {
                     if (resp.isSuccessful && resp.body() != null) {
                         val result = resp.body()!!.result
                         responseText.text = result
-
                         updateResponseText(responseText, scrollView, result)
                     } else {
                         val err = getString(R.string.error_server, resp.code())
@@ -245,7 +245,7 @@ class AiResponseActivity : AppCompatActivity() {
      * Firebase Firestore에 텍스트 저장
      */
     private fun uploadResponseToFirebase(text: String) {
-        val db = FirebaseFirestore.getInstance()
+        val db = Firebase.firestore
         val timestamp = System.currentTimeMillis()
         val data = mapOf(
             "text" to text,
