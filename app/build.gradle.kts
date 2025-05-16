@@ -44,6 +44,7 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.2.0"))
     implementation("com.google.firebase:firebase-firestore-ktx")
     implementation("com.google.firebase:firebase-auth-ktx")
+    // implementation 'com.google.firebase:firebase-storage-ktx' //이미지를 firebase에 보낼 때 사용
 
     implementation(libs.androidx.core.ktx)
     implementation("androidx.activity:activity-ktx:1.10.1")

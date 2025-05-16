@@ -46,6 +46,8 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.IOException
 import java.util.Locale
+//firebase에 이미지를 보낼 때 사용하는 import문
+// import com.google.firebase.storage.ktx.storage
 
 class AiResponseActivity : AppCompatActivity() {
 
@@ -320,6 +322,23 @@ class AiResponseActivity : AppCompatActivity() {
         )
         db.collection("responses")
             .add(data)
+            //.addOnSuccessListener { documentRef ->
+            //            // ---- 이미지 업로드 기능 (현재는 사용하지 않음) ----
+            //            //
+            //            // selectedImageUri?.let { uri ->
+            //            //     val storage   = Firebase.storage
+            //            //     val imageRef  = storage.reference.child("responses/images/${documentRef.id}.jpg")
+            //            //     imageRef.putFile(uri)
+            //            //         .addOnSuccessListener {
+            //            //             imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+            //            //                 documentRef.update("imageUrl", downloadUri.toString())
+            //            //             }
+            //            //         }
+            //            //         .addOnFailureListener { e ->
+            //            //             Toast.makeText(this, "이미지 업로드 실패: ${e.message}", Toast.LENGTH_SHORT).show()
+            //            //         }
+            //            // }
+            //            // ---------------------------------------------
             .addOnFailureListener { e -> Toast.makeText(this, "민원 전송 실패: ${e.message}", Toast.LENGTH_SHORT).show() }
     }
 
