@@ -57,7 +57,7 @@
                 android:stateListAnimator="@null"
                 android:text="사진 불러오기"
                 android:textColor="@color/title_text_color"
-                android:textSize="40sp"
+                android:textSize="35sp"
                 app:backgroundTint="@null"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="1.0"
@@ -88,7 +88,7 @@
                     android:hint="문제 사항을 입력해주세요"
                     android:padding="12dp"
                     android:textColorHint="@color/content_text_color"
-                    android:textSize="40sp" />
+                    android:textSize="35sp" />
 
                 <Button
                     android:id="@+id/sendButton"
@@ -97,7 +97,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/ripple_content_round"
                     android:text="전송"
-                    android:textSize="40sp"
+                    android:textSize="35sp"
                     android:textColor="@color/title_text_color"
                     app:backgroundTint="@null"
                     android:layout_marginEnd="8dp"
@@ -117,7 +117,7 @@
                 android:background="@drawable/content_round"
                 android:gravity="top|start"
                 android:padding="12dp"
-                android:textSize="40sp"
+                android:textSize="35sp"
                 android:hint="서버 응답이 여기에 표시됩니다"
                 android:textColor="@color/title_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -138,7 +138,7 @@
             <Button
                 android:id="@+id/sendImageButton"
                 android:layout_width="wrap_content"
-                android:layout_height="150dp"
+                android:layout_height="120dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/ripple_content_round"
@@ -146,7 +146,7 @@
                 android:stateListAnimator="@null"
                 android:text="민원 전송하기"
                 android:textColor="@color/title_text_color"
-                android:textSize="40sp"
+                android:textSize="35sp"
                 app:backgroundTint="@null"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
