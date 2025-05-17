@@ -16,6 +16,8 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -24,6 +26,8 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
@@ -37,6 +41,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.edit
+import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.example.safetyhelper.databinding.ActivityAiResponseBigBinding
 import com.example.safetyhelper.databinding.ActivityAiResponseBinding
@@ -44,6 +49,7 @@ import com.example.safetyhelper.databinding.DialogFullscreenImageBinding
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -150,9 +156,9 @@ class AiResponseActivity : AppCompatActivity() {
     private fun setupViewsCommon(root: View) {
         val scrollView        = root.findViewById<ScrollView>(R.id.scrollView)
         val selectedImageView = root.findViewById<ImageView>(R.id.selectedImageView)
-        val loadBtn           = root.findViewById<Button>(R.id.loadImageButton)
+        val loadBtn           = root.findViewById<FrameLayout>(R.id.loadImageButton)
         val issueInput        = root.findViewById<EditText>(R.id.issueInput)
-        val sendButton        = root.findViewById<Button>(R.id.sendButton)
+        val sendButton        = root.findViewById<MaterialButton>(R.id.sendButton)
         val responseText      = root.findViewById<TextView>(R.id.responseText)
         val sendImageBtn      = root.findViewById<Button>(R.id.sendImageButton)
 
@@ -199,6 +205,17 @@ class AiResponseActivity : AppCompatActivity() {
                 }
             }
         }
+
+        issueInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val hasText = !s.isNullOrBlank()
+                sendButton.isEnabled = hasText
+                sendImageBtn.isEnabled = hasText
+
+            }
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         // 위치 권한 외의 기존 권한/뷰 초기화 로직 유지
         requestPermissionLauncher = registerForActivityResult(

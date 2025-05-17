@@ -47,7 +47,7 @@
             tools:layout_editor_absoluteX="2dp"
             tools:layout_editor_absoluteY="4dp">
 
-            <Button
+            <FrameLayout
                 android:id="@+id/loadImageButton"
                 android:layout_width="match_parent"
                 android:layout_height="65dp"
@@ -55,15 +55,39 @@
                 android:background="@drawable/ripple_content_round"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
-                android:text="사진 불러오기"
-                android:textColor="@color/title_text_color"
-                android:textSize="14sp"
-                app:backgroundTint="@null"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <!-- 중앙에 아이콘+텍스트 묶음 -->
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center"
+                    android:gravity="center_vertical">
+
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@drawable/image_gallery"
+                        android:contentDescription="사진 불러오기 아이콘"
+                        android:adjustViewBounds="true"
+                        android:layout_marginEnd="8dp" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="사진 불러오기"
+                        android:textSize="14sp"
+                        android:textColor="@color/title_text_color"/>
+                </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:id="@+id/linearLayout"
@@ -90,27 +114,31 @@
                     android:padding="12dp"
                     android:textSize="14sp"/>
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/sendButton"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
                     android:layout_height="65dp"
                     android:layout_weight="1"
-                    android:background="@drawable/ripple_content_round"
-                    android:text="전송"
-                    android:textSize="14sp"
-                    android:textColor="@color/title_text_color"
-                    app:backgroundTint="@null"
-                    android:layout_marginEnd="8dp"
-                    android:elevation="0dp"
+                    android:enabled="false"
                     android:stateListAnimator="@null"
-                    />
+                    android:background="@drawable/ripple_content_round"
+                    app:backgroundTint="@color/button_tint_selector"
+
+
+                    android:text=""
+                    app:icon="@drawable/send"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="24dp"
+                    android:contentDescription="전송" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/responseText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="460dp"
+                android:minHeight="350dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/content_round"
                 android:gravity="top|start"
@@ -144,14 +172,14 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/ripple_content_round"
                 android:textColor="@color/title_text_color"
-                app:backgroundTint="@null"
                 app:layout_constraintTop_toBottomOf="@id/selectedImageView"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-
-                android:elevation="0dp"
                 android:stateListAnimator="@null"
+
+                android:enabled="false"
+                app:backgroundTint="@color/button_tint_selector"
                 />
 
 

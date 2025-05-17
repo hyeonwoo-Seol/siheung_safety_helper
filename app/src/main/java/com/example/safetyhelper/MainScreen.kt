@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import android.net.Uri
+import android.widget.FrameLayout
 
 class MainScreen : AppCompatActivity() {
 
@@ -67,23 +68,23 @@ class MainScreen : AppCompatActivity() {
         loadNoticeIntoView(prefs)
 
         // 민원 작성 버튼
-        findViewById<Button>(R.id.move_ai_response).setOnClickListener {
+        findViewById<FrameLayout>(R.id.move_ai_response).setOnClickListener {
             startActivity(Intent(this, AiResponseActivity::class.java))
         }
 
         // 작성된 민원 목록 버튼
-        findViewById<Button>(R.id.move_response_detail).setOnClickListener {
+        findViewById<FrameLayout>(R.id.move_response_detail).setOnClickListener {
             startActivity(Intent(this, ComplaintListActivity::class.java))
         }
 
-        findViewById<Button>(R.id.move_site1).setOnClickListener {
+        findViewById<FrameLayout>(R.id.move_site1).setOnClickListener {
             val url1 = "https://www.siheung.go.kr/main/bbs/list.do?ptIdx=46&mId=0401010000"
             val intent1 = Intent(Intent.ACTION_VIEW, Uri.parse(url1))
             startActivity(intent1)
         }
 
         // 4) 시흥톡 바로가기
-        findViewById<Button>(R.id.move_site2).setOnClickListener {
+        findViewById<FrameLayout>(R.id.move_site2).setOnClickListener {
             val url2 = "https://talk.siheung.go.kr/"
             val intent2 = Intent(Intent.ACTION_VIEW, Uri.parse(url2))
             startActivity(intent2)

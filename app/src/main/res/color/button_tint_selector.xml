@@ -1,7 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- 텍스트 입력이 있을 때(버튼 enabled) 주황색 -->
+    <!-- 1) 비활성 상태 우선 -->
+    <item android:color="@color/white" android:state_enabled="false" />
+    <!-- 2) 활성 상태 -->
     <item android:color="@color/orange" android:state_enabled="true" />
-    <!-- 그 외(비활성화) 흰색 -->
+    <!-- 3) 안전망: 디폴트(없어도 무방) -->
     <item android:color="@color/white" />
 </selector>
