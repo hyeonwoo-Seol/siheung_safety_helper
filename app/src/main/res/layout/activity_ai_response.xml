@@ -84,7 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="사진 불러오기"
-                        android:textSize="14sp"
+                        android:textSize="20sp"
                         android:textColor="@color/title_text_color"/>
                 </LinearLayout>
             </FrameLayout>
@@ -112,7 +112,7 @@
                     android:hint="문제 사항을 입력해주세요"
                     android:textColorHint="@color/content_text_color"
                     android:padding="12dp"
-                    android:textSize="14sp"/>
+                    android:textSize="20sp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/sendButton"
@@ -140,10 +140,11 @@
                 android:layout_height="wrap_content"
                 android:minHeight="350dp"
                 android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
                 android:background="@drawable/content_round"
                 android:gravity="top|start"
                 android:padding="12dp"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 android:hint="서버 응답이 여기에 표시됩니다"
                 android:textColor="@color/title_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -164,10 +165,10 @@
 
             <Button
                 android:id="@+id/sendImageButton"
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:text = "민원 전송하기"
-                android:textSize="14sp"
+                android:text="민원 전송하기"
+                android:textSize="17sp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/ripple_content_round"
