@@ -15,11 +15,12 @@ import java.util.Date
 import java.util.Locale
 import android.net.Uri
 import android.widget.FrameLayout
+import androidx.appcompat.widget.SwitchCompat
 
 class MainScreen : AppCompatActivity() {
 
     private lateinit var announcementTv: TextView
-    private lateinit var btnBigString: Button
+    private lateinit var switchBigText: SwitchCompat
 
     companion object {
         private const val PREFS_NAME = "app_settings"
@@ -53,16 +54,17 @@ class MainScreen : AppCompatActivity() {
 
         // 뷰 바인딩
         announcementTv = findViewById(R.id.announcement)
-        btnBigString = findViewById(R.id.btnBigString)
+        switchBigText = findViewById(R.id.switchBigText)
+
+        switchBigText.isChecked = isBig
 
         // 큰 글씨 모드 토글
-        btnBigString.setOnClickListener {
+        switchBigText.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit()
-                .putBoolean(KEY_BIG_TEXT_MODE, !isBig)
+                .putBoolean(KEY_BIG_TEXT_MODE, isChecked)
                 .apply()
             recreate()
         }
-
         // 공지 저장 및 로드
         saveSampleNotice(prefs)
         loadNoticeIntoView(prefs)

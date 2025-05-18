@@ -28,7 +28,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="16dp"
+            android:padding="@dimen/side_padding"
             tools:layout_editor_absoluteX="2dp"
             tools:layout_editor_absoluteY="4dp">
 
@@ -103,7 +103,7 @@
                 <EditText
                     android:id="@+id/issueInput"
                     android:layout_width="0dp"
-                    android:layout_height="150dp"
+                    android:layout_height="120dp"
                     android:layout_marginEnd="20dp"
                     android:layout_weight="3"
                     android:background="@drawable/content_round"
@@ -116,7 +116,7 @@
                     android:id="@+id/sendButton"
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="0dp"
-                    android:layout_height="150dp"
+                    android:layout_height="120dp"
                     android:layout_weight="1"
                     android:enabled="false"
                     android:stateListAnimator="@null"
@@ -136,7 +136,7 @@
                 android:id="@+id/responseText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="460dp"
+                android:minHeight="200dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/content_round"
@@ -163,7 +163,7 @@
             <Button
                 android:id="@+id/sendImageButton"
                 android:layout_width="wrap_content"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
                 android:background="@drawable/ripple_content_round"

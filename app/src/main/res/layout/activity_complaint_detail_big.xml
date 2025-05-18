@@ -27,7 +27,7 @@
 
         <LinearLayout
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="@dimen/side_padding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 

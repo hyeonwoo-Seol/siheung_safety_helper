@@ -208,6 +208,16 @@ class AiResponseActivity : AppCompatActivity() {
                 sendButton.isEnabled = hasText
                 sendImageBtn.isEnabled = hasText
 
+                val textColorRes = if (hasText) {
+                    android.R.color.white
+                } else {
+                    R.color.title_text_color
+                }
+
+                val color = ContextCompat.getColor(this@AiResponseActivity, textColorRes)
+                sendButton.setTextColor(color)
+                sendImageBtn.setTextColor(color)
+
             }
             override fun afterTextChanged(s: Editable?) {}
         })
