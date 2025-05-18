@@ -19,15 +19,13 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.FrameLayout
-import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.ScrollView
 import android.widget.TextView
@@ -36,39 +34,46 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
-import androidx.core.content.edit
-import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
 import com.example.safetyhelper.databinding.ActivityAiResponseBigBinding
 import com.example.safetyhelper.databinding.ActivityAiResponseBinding
 import com.example.safetyhelper.databinding.DialogFullscreenImageBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.FirebaseApp
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 //firebase에 이미지를 보낼 때 사용하는 import문
 // import com.google.firebase.storage.ktx.storage
+
+
 
 class AiResponseActivity : AppCompatActivity() {
 
     companion object {
         private const val PREFS_NAME        = "app_settings"
         private const val KEY_BIG_TEXT_MODE = "big_text_mode"
-        private const val KEY_MIC_TIP_DATE = "mic_tip_date"
+    }
+
+    private fun animateTyping(
+        editText: EditText,
+        scrollView: ScrollView,
+        text: String,
+        charDelay:Long = 25L
+    ) {
+        editText.setText("")
+        lifecycleScope.launch {
+            text.forEach { ch ->
+                editText.append(ch.toString())
+                scrollView.post { scrollView.fullScroll(View.FOCUS_DOWN) }
+                delay(charDelay)
+            }
+        }
     }
 
     private lateinit var prefs: SharedPreferences
@@ -153,7 +158,7 @@ class AiResponseActivity : AppCompatActivity() {
                 Toast.makeText(this, "전송할 민원이 없습니다. 내용을 작성 후 전송 버튼을 눌러주세요", Toast.LENGTH_SHORT).show()
             } else {
                 saveResponseToInternalStorage(textToSave)
-                uploadResponseToFirebase(textToSave)
+                //uploadResponseToFirebase(textToSave)  //테스트 중 서버 트래픽 방지
                 Toast.makeText(this, "민원을 성공적으로 전송했습니다.", Toast.LENGTH_SHORT).show()
 
                 // 텍스트 초기화 및 MainScreen으로 이동
@@ -165,6 +170,9 @@ class AiResponseActivity : AppCompatActivity() {
         }
 
         sendButton.setOnClickListener {
+            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(issueInput.windowToken, 0)
+
             val issue = issueInput.text.toString().trim()
             if (issue.isEmpty()) {
                 responseText.setText("이슈를 입력해주세요")
@@ -178,8 +186,10 @@ class AiResponseActivity : AppCompatActivity() {
                     )
                     if (resp.isSuccessful && resp.body() != null) {
                         val result = resp.body()!!.result
-                        responseText.setText(result)
-                        updateResponseText(responseText, scrollView, result)
+                        animateTyping(editText = responseText,
+                            scrollView = scrollView,
+                            text = result,
+                            charDelay = 20L)
                     } else {
                         val err = getString(R.string.error_server, resp.code())
                         responseText.setText(err)
@@ -323,7 +333,7 @@ class AiResponseActivity : AppCompatActivity() {
             val lines      = responseText.lineCount
             val lineHeight = responseText.lineHeight
             val padding    = responseText.compoundPaddingTop + responseText.compoundPaddingBottom
-            (responseText.layoutParams as? ViewGroup.MarginLayoutParams)?.let { params ->
+            (responseText.layoutParams as? ViewGroup.LayoutParams)?.let { params ->
                 params.height = lines * lineHeight + padding
                 responseText.layoutParams = params
             }

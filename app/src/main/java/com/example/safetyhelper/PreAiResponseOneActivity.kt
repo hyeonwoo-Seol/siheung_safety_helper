@@ -11,6 +11,9 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.AbsoluteSizeSpan
 import android.widget.TextView
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class PreAiResponseOneActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,9 +45,19 @@ class PreAiResponseOneActivity : AppCompatActivity() {
         tv.text = spannable
 
         val btnNext = findViewById<MaterialButton>(R.id.btnNext)
-        // ② 클릭 시 AiResponseActivity 로 이동
         btnNext.setOnClickListener {
             startActivity(Intent(this, AiResponseActivity::class.java))
+        }
+
+        val tvTyping = findViewById<TextView>(R.id.content2)
+        val textToShow = "키보드 왼쪽 하단에 있는 마이크 모양을 터치하시면 말로 글자를 입력하실 수 있습니다"
+
+        lifecycleScope.launch {
+            tvTyping.text = ""
+            textToShow.forEach { char ->
+                tvTyping.append(char.toString())
+                delay(40)
+            }
         }
     }
 }

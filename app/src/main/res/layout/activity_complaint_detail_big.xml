@@ -23,8 +23,7 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="16dp">
+        android:layout_weight="1">
 
         <LinearLayout
             android:orientation="vertical"
@@ -37,6 +36,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:textSize="37sp"
                 android:textStyle="bold"
                 android:background="@drawable/ripple_content_round"
@@ -50,6 +50,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="16dp"
                 android:textSize="27sp"
                 android:background="@drawable/ripple_content_round"
                 android:elevation="0dp"
