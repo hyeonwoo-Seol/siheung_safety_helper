@@ -110,7 +110,7 @@
                     android:hint="문제 사항을 입력해주세요"
                     android:textColorHint="@color/content_text_color"
                     android:padding="12dp"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/sendButton"
@@ -142,7 +142,7 @@
                 android:background="@drawable/content_round"
                 android:gravity="top|start"
                 android:padding="12dp"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:hint="서버 응답이 여기에 표시됩니다"
                 android:textColor="@color/title_text_color"
                 app:layout_constraintEnd_toEndOf="parent"
