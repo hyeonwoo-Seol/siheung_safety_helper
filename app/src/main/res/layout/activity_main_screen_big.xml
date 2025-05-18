@@ -24,7 +24,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
-        app:title="시흥시 민원 도우미"/>
+        app:title="소통 다리"/>
 
     <!-- ScrollView -->
     <ScrollView
