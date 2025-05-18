@@ -11,27 +11,12 @@
     android:fitsSystemWindows="true"
     >
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="0dp"
-        android:layout_height="?attr/actionBarSize"
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:clickable="true"
-        android:theme="@style/AppTheme"
-        app:titleTextColor="@color/title_text_color"
-        app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-
-        app:title="민원 작성하기"/>
-
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:fillViewport="true"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,11 +32,24 @@
             tools:layout_editor_absoluteX="2dp"
             tools:layout_editor_absoluteY="4dp">
 
+            <TextView
+                android:id="@+id/responseTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="60dp"
+                android:text="민원 작성하기"
+                android:textColor="@color/title_text_color"
+                android:textSize="40sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <FrameLayout
                 android:id="@+id/loadImageButton"
                 android:layout_width="match_parent"
                 android:layout_height="120dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/ripple_content_round"
                 android:elevation="0dp"
                 android:stateListAnimator="@null"
@@ -60,7 +58,7 @@
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toBottomOf="@+id/responseTitle">
 
                 <!-- 중앙에 아이콘+텍스트 묶음 -->
                 <LinearLayout
@@ -134,7 +132,7 @@
                     android:contentDescription="전송" />
             </LinearLayout>
 
-            <TextView
+            <EditText
                 android:id="@+id/responseText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -69,7 +69,7 @@ class MainScreen : AppCompatActivity() {
 
         // 민원 작성 버튼
         findViewById<FrameLayout>(R.id.move_ai_response).setOnClickListener {
-            startActivity(Intent(this, AiResponseActivity::class.java))
+            startActivity(Intent(this, PreAiResponseOneActivity::class.java))
         }
 
         // 작성된 민원 목록 버튼

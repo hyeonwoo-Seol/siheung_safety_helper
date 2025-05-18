@@ -38,6 +38,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.app.ActivityCompat.shouldShowRequestPermissionRationale
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.content.edit
@@ -111,46 +112,30 @@ class AiResponseActivity : AppCompatActivity() {
         val rootView: View = if (!isBig) {
             val binding = ActivityAiResponseBinding.inflate(layoutInflater)
             setContentView(binding.root)
-            setupToolbar(binding.toolbar, isBig)
             binding.root
         } else {
             val bigBinding = ActivityAiResponseBigBinding.inflate(layoutInflater)
             setContentView(bigBinding.root)
-            setupToolbar(bigBinding.toolbar, isBig)
             bigBinding.root
         }
 
+
         // 공통 뷰 초기화
         setupViewsCommon(rootView)
-
-        // 오늘 하루 보지 않기 여부 확인 후 팝업
-        val lastDate = prefs.getString(KEY_MIC_TIP_DATE, "")
-        val today = SimpleDateFormat("yyyyMMdd", Locale.KOREA).format(Date())
-        if (lastDate != today) showMicTipDialog(today)
     }
 
-    private fun showMicTipDialog(today: String) {
-        MaterialAlertDialogBuilder(this)
-            .setMessage("키보드 왼쪽 하단에 있는 마이크 모양을 터치하시면 말로 글자를 입력할 수 있습니다")
-            .setPositiveButton("확인") { dialog, _ -> dialog.dismiss() }
-            .setNeutralButton("오늘 하루 보지 않기") { dialog, _ ->
-                prefs.edit { putString(KEY_MIC_TIP_DATE, today) }
-                dialog.dismiss()
-            }
-            .setCancelable(false)
-            .show()
-    }
 
-    private fun setupToolbar(toolbar: Toolbar, isBig: Boolean) {
-        setSupportActionBar(toolbar)
-        toolbar.setOnClickListener {
-            prefs.edit()
-                .putBoolean(KEY_BIG_TEXT_MODE, !isBig)
-                .apply()
-            recreate()
+    override fun onBackPressed() {
+        // MainScreen으로 돌아가는 인텐트 생성
+        val intent = Intent(this, MainScreen::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
         }
-    }
+        startActivity(intent)
 
+        // 반드시 super.onBackPressed() 호출해서
+        // 기본 뒤로가기 동작(현재 액티비티 종료)을 수행합니다.
+        super.onBackPressed()
+    }
 
 
     private fun setupViewsCommon(root: View) {
@@ -159,7 +144,7 @@ class AiResponseActivity : AppCompatActivity() {
         val loadBtn           = root.findViewById<FrameLayout>(R.id.loadImageButton)
         val issueInput        = root.findViewById<EditText>(R.id.issueInput)
         val sendButton        = root.findViewById<MaterialButton>(R.id.sendButton)
-        val responseText      = root.findViewById<TextView>(R.id.responseText)
+        val responseText      = root.findViewById<EditText>(R.id.responseText)
         val sendImageBtn      = root.findViewById<Button>(R.id.sendImageButton)
 
         sendImageBtn.setOnClickListener {
@@ -172,7 +157,7 @@ class AiResponseActivity : AppCompatActivity() {
                 Toast.makeText(this, "민원을 성공적으로 전송했습니다.", Toast.LENGTH_SHORT).show()
 
                 // 텍스트 초기화 및 MainScreen으로 이동
-                responseText.text = ""
+                responseText.setText("")
                 val intent = Intent(this@AiResponseActivity, MainScreen::class.java)
                 startActivity(intent)
                 finish()
@@ -182,26 +167,26 @@ class AiResponseActivity : AppCompatActivity() {
         sendButton.setOnClickListener {
             val issue = issueInput.text.toString().trim()
             if (issue.isEmpty()) {
-                responseText.text = "이슈를 입력해주세요."
+                responseText.setText("이슈를 입력해주세요")
                 return@setOnClickListener
             }
             lifecycleScope.launch {
-                responseText.text = "요청 중..."
+                responseText.setText("요청 중")
                 try {
                     val resp = RetrofitClient.apiService.getLLMResponse(
                         ApiRequest(locationString, name, issue)
                     )
                     if (resp.isSuccessful && resp.body() != null) {
                         val result = resp.body()!!.result
-                        responseText.text = result
+                        responseText.setText(result)
                         updateResponseText(responseText, scrollView, result)
                     } else {
                         val err = getString(R.string.error_server, resp.code())
-                        responseText.text = err
+                        responseText.setText(err)
                     }
                 } catch (e: Exception) {
                     val err = getString(R.string.error_network, e.localizedMessage)
-                    responseText.text = err
+                    responseText.setText(err)
                 }
             }
         }
@@ -385,21 +370,6 @@ class AiResponseActivity : AppCompatActivity() {
             //            // ---------------------------------------------
             .addOnFailureListener { e -> Toast.makeText(this, "민원 전송 실패: ${e.message}", Toast.LENGTH_SHORT).show() }
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.toolbar_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
-            R.id.action_complaint_list -> {
-                val intent = Intent(this, ComplaintListActivity::class.java)
-                startActivity(intent)
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
 
     private fun checkCameraPermissionAndLaunch() {
         when {
