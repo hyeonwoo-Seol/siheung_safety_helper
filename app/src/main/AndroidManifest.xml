@@ -54,7 +54,8 @@
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
         <activity
             android:name=".MainScreen"
-            android:exported="false"></activity>
+            android:exported="false">
+        </activity>
         <activity
             android:name=".SignInActivity"
             android:exported="false" />

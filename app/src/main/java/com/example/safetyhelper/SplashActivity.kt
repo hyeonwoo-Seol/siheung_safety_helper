@@ -32,15 +32,13 @@ class SplashActivity : AppCompatActivity() {
         if (user != null) {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
         else {
-            auth.addAuthStateListener { firebaseAuth ->
-                Handler(Looper.getMainLooper()).postDelayed({
-                    val intent = Intent(this, SignInActivity::class.java)
-                    startActivity(intent)
-                    finish() }, 2000)
-            }
-            finish()
+            Handler(Looper.getMainLooper()).postDelayed({
+                startActivity(Intent(this, SignInActivity::class.java))
+                finish()
+            }, 2000)
         }
     }
 }
