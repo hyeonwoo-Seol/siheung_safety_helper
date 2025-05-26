@@ -2,17 +2,19 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.CAMERA" /> <!-- Android 13 이상용 세분화된 미디어 읽기 권한 -->
+    <!-- 권한 선언 -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
     <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- Android 12 이하 호환: 외부저장소 읽기 권한 -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
 
+    <!-- 선택적 기능 선언 -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -28,6 +30,8 @@
         android:theme="@style/Theme.SafetyHelper"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+
+        <!-- 기타 Activity -->
         <activity
             android:name=".FindAccountActivity2"
             android:exported="false" />
@@ -38,6 +42,7 @@
             android:name=".ComplaintListActivity"
             android:exported="false" />
 
+        <!-- FileProvider 설정 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -48,14 +53,13 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <!-- AI 응답 화면 -->
         <activity
             android:name=".AiResponseActivity"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-        <activity
-            android:name=".MainScreen"
-            android:exported="false">
-        </activity>
+
+        <!-- 인증 관련 화면 -->
         <activity
             android:name=".SignInActivity"
             android:exported="false" />
@@ -63,24 +67,24 @@
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
+            android:name=".NameActivity"
+            android:exported="false" />
+
+        <!-- 런처 Splash 화면 -->
+        <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.MySplashScreen.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".FindAccountActivity"
-            android:exported="false" />
-        <activity
-            android:name=".NameActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="true" />
-    </application>
 
+        <!-- 메인 화면 -->
+        <activity
+            android:name=".MainScreen"
+            android:exported="false" />
+
+    </application>
 </manifest>

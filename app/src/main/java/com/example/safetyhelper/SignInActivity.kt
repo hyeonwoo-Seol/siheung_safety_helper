@@ -65,17 +65,25 @@ class SignInActivity : AppCompatActivity() {
         auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    Log.d("Firebase", "로그인 성공!")
+                    // 로그인 성공
                     Toast.makeText(this, "로그인 완료!", Toast.LENGTH_SHORT).show()
 
-                    val intent = Intent(this, NameActivity::class.java)
+                    // Intent 생성과 동시에 플래그 설정
+                    val intent = Intent(this, NameActivity::class.java).apply {
+                        // 기존 태스크를 지우고(NameActivity만 남김) 새 태스크로 실행
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    }
                     startActivity(intent)
+                    // 보통 CLEAR_TASK에 의해 이전 Activity는 모두 종료되므로 finish()는 선택사항입니다.
+                    // 그러나 명시적으로 현재 Activity를 종료하고 싶다면 남겨두셔도 좋습니다.
                     finish()
 
                 } else {
-                    Log.w("Firebase", "로그인 실패", task.exception)
-                    Toast.makeText(this, "로그인 실패: ${task.exception?.message}", Toast.LENGTH_SHORT)
-                        .show()
+                    // 로그인 실패
+                    Toast.makeText(this,
+                        "로그인 실패: ${task.exception?.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
     }

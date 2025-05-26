@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="200dp"
         android:contentDescription="시흥"
-        app:srcCompat="@drawable/logo_siheung" />
+        app:srcCompat="@drawable/logo_siheung"/>
 
     <ImageView
         android:id="@+id/imageView2"

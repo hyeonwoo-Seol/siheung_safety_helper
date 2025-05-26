@@ -40,7 +40,7 @@ class NameActivity : AppCompatActivity() {
         }
         binding.startButton.setOnClickListener {
             if (binding.nameEditText.text.toString().isNotEmpty()) {
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, MainScreen::class.java)
                 startActivity(intent)
             } else {
                 binding.nameEditText.error = "이름을 입력해주세요!"
