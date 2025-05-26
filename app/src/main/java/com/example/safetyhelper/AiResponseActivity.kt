@@ -58,6 +58,8 @@ class AiResponseActivity : AppCompatActivity() {
     companion object {
         private const val PREFS_NAME        = "app_settings"
         private const val KEY_BIG_TEXT_MODE = "big_text_mode"
+        private const val PREFS_USER          = "user_prefs"       // ← 추가
+        private const val KEY_USER_NAME       = "KEY_USER_NAME"    // ← 추가
     }
 
     private fun animateTyping(
@@ -86,7 +88,7 @@ class AiResponseActivity : AppCompatActivity() {
     private var tempImageUri: Uri? = null
     private var selectedImageUri: Uri? = null
     private var locationString: String = ""
-    private val name = "설현우"
+    private var userName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -95,6 +97,8 @@ class AiResponseActivity : AppCompatActivity() {
 
         prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)
         val isBig = prefs.getBoolean(KEY_BIG_TEXT_MODE, false)
+        val userPrefs = getSharedPreferences(PREFS_USER, MODE_PRIVATE)
+        userName = userPrefs.getString(KEY_USER_NAME, "") ?: ""
 
         // 위치 권한 요청
         locationPermissionLauncher = registerForActivityResult(
@@ -182,7 +186,7 @@ class AiResponseActivity : AppCompatActivity() {
                 responseText.setText("요청 중")
                 try {
                     val resp = RetrofitClient.apiService.getLLMResponse(
-                        ApiRequest(locationString, name, issue)
+                        ApiRequest(locationString, userName, issue)
                     )
                     if (resp.isSuccessful && resp.body() != null) {
                         val result = resp.body()!!.result
