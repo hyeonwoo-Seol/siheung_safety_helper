@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/splash"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.SplashScreen"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:backgroundTint="@color/white"
+    android:background="@color/background_color"
+    android:fitsSystemWindows="true">
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:contentDescription="시흥"
+        app:srcCompat="@drawable/logo_siheung" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:contentDescription="한국공학대학교"
+        app:srcCompat="@drawable/logo_tukorea" />
+</LinearLayout>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/find_account"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp"
+    android:background="@color/background_color"
+    android:fitsSystemWindows="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="아이디 / 비밀번호 찾기"
+        android:textColor="@color/title_text_color"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:paddingBottom="16dp" />
+
+    <EditText
+        style="@style/DefaultEditText"
+        android:id="@+id/find_accountEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textEmailAddress"
+        android:hint="이메일 입력"/>
+
+    <Button
+        style="@style/DefaultButton"
+        android:id="@+id/searchButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="찾기"/>
+
+    <TextView
+        style="@style/DescText"
+        android:id="@+id/passwordDesc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="메일 발송에 시간이 걸릴 수 있습니다"/>
+</LinearLayout>
