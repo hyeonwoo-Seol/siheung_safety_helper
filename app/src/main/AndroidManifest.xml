@@ -89,5 +89,7 @@
             android:name=".MainScreen"
             android:exported="false" />
 
+        <activity android:name=".FindAccountActivity"
+            android:exported="false"/>
     </application>
 </manifest>
