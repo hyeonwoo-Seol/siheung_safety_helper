@@ -13,8 +13,6 @@ import com.google.firebase.auth.FirebaseAuth
 class SplashActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // 1) SplashScreen API 초기화
-        installSplashScreen()
         super.onCreate(savedInstanceState)
 
         // 2) Edge-to-edge 설정
