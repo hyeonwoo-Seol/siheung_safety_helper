@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:ignore="ExtraText">
+
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="66dp"
+            android:layout_height="64dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/home">
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/setting"
+            android:layout_width="66dp"
+            android:layout_height="64dp"
+            android:background="@android:color/transparent"
+            android:padding="3dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/baseline_settings_24">
+        </ImageButton>
+
+        <ImageButton
+            android:id="@+id/counsel"
+            android:layout_width="66dp"
+            android:layout_height="64dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="67dp"
+            android:background="@android:color/transparent"
+            android:padding="3dp"
+            android:src="@drawable/baseline_headset_mic_24">
+
+        </ImageButton>
+
+
+    </RelativeLayout>
+    <Button
+        android:id="@+id/writeCompl"
+        android:text="작성된 민원 글"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="14sp"
+        android:layout_marginTop="40dp">
+    </Button>
+    <Button
+        android:id="@+id/goAnn"
+        android:text="시흥시 공지사항"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_marginTop="20dp">
+    </Button>
+    <Button
+        android:id="@+id/gotalk"
+        android:text="시흥톡 바로가기"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp"
+        android:layout_marginTop="20dp">
+    </Button>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
+
+
+        <TextView
+            android:id="@+id/versionText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="버전 1.0.3 © 2025 SiheungSafety"
+            android:textColor="#999999"
+            android:textSize="12sp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp" />
+
+        <!-- 소통다리 이미지 -->
+        <androidx.cardview.widget.CardView
+            android:id="@+id/logoCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/versionText"
+            android:layout_marginBottom="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="8dp"
+            app:cardBackgroundColor="@android:color/white">
+
+            <ImageView
+                android:id="@+id/logoImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:contentDescription="소통다리 로고"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sotongdari" />
+        </androidx.cardview.widget.CardView>
+    </RelativeLayout>
+
+</LinearLayout>

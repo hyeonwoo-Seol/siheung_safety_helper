@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/userName"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="김원준"
+        android:textSize="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp">
+
+    </TextView>
+    <!-- 테마 버튼 커스텀 -->
+    <Button
+        android:id="@+id/darkMode"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="테마                            다크모드   >"
+        android:textStyle="bold"
+        android:gravity="center_vertical|start"
+        android:textSize="25dp" />
+    <Button
+        android:id="@+id/changePw"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="비밀번호 변경                              >"
+        android:textSize="25dp" >
+    </Button>
+    <Button
+        android:id="@+id/alarm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="알림                                              >"
+        android:textSize="25dp" >
+    </Button>
+    <Button
+        android:id="@+id/privateapp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="앱잠금                                          >"
+        android:textSize="25dp" >
+    </Button>
+    <Button
+        android:id="@+id/consuel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="문의하기                                       >"
+        android:textSize="25dp" >
+    </Button>
+
+    <Button
+        android:id="@+id/version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:gravity="left"
+        android:text="버전정보"
+        android:textSize="25dp">
+    </Button>
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="71dp"
+        android:layout_marginTop="180dp"
+        android:text="로그아웃/탈퇴하기                      >"
+        android:textSize="25dp">
+    </Button>
+
+
+</LinearLayout>
