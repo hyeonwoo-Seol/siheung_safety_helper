@@ -101,8 +101,10 @@ class MainScreen : AppCompatActivity() {
     // ③ 메뉴 아이템 클릭 처리
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.mainscreen_menu -> {
-                //startActivity(Intent(this, OptionActivity::class.java))
+            R.id.action_settings -> {
+                // SettingAct 로 이동하는 인텐트 생성
+                val intent = Intent(this, SettingAct::class.java)
+                startActivity(intent)
                 true
             }
             else -> super.onOptionsItemSelected(item)
