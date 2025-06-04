@@ -73,6 +73,19 @@
             android:name=".NameActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".AlarmAct"
+            android:exported="false" />
+        <activity
+            android:name=".SettingAct"
+            android:exported="false" />
+        <activity
+            android:name=".consuelAct"
+            android:exported="false" />
+        <activity
+            android:name=".home"
+            android:exported="false" />
+
         <!-- 런처 Splash 화면 -->
         <activity
             android:name=".SplashActivity"

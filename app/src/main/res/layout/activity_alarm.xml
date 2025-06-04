@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/home"
+            android:layout_width="66dp"
+            android:layout_height="64dp"
+            android:background="@android:color/transparent"
+            android:src="@drawable/back">
+        </ImageButton>
+        <!-- 사운드 스위치 -->
+        <Switch
+            android:id="@+id/switchSound"
+            android:text="사운드 알림"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:layout_height="wrap_content">
+        </Switch>
+
+        <!-- 진동 스위치 -->
+        <Switch
+            android:layout_marginTop="10dp"
+            android:id="@+id/switchVibration"
+            android:text="진동 알림"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!-- 야간 제한 -->
+        <Switch
+            android:layout_marginTop="10dp"
+            android:id="@+id/switchDND"
+            android:text="야간 시간대 알림 차단"
+            android:textSize="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="22:00 ~ 07:00 사이엔 알림이 꺼집니다"
+            android:textSize="12sp"
+            android:textColor="#888888"
+            android:layout_marginBottom="16dp" />
+
+        <!-- 시간 설정 -->
+        <TextView
+            android:id="@+id/timeRangeLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="알림 허용 시간"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="16dp">
+
+            <Button
+                android:id="@+id/btnStartTime"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="시작 시간"
+                android:textSize="20dp"/>
+
+            <Button
+                android:id="@+id/btnEndTime"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="종료 시간"
+                android:textSize="20dp"/>
+        </LinearLayout>
+
+        <!-- 요일 선택 -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="알림 받을 요일"
+            android:textSize="20dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp">
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mon"
+                android:text="월"
+                android:textSize="20dp"/>
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/tue"
+                android:text="화"
+                android:textSize="20dp"/>
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/wed"
+                android:text="수"
+                android:textSize="20dp"/>
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/thu"
+                android:text="목"
+                android:textSize="20dp"/>
+
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/fri"
+                android:text="금"
+                android:textSize="20dp"/>
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sat"
+                android:text="토"
+                android:textSize="20dp"/>
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/sun"
+                android:text="일"
+                android:textSize="20dp"/>
+        </LinearLayout>
+        <Button
+            android:id="@+id/btnNotify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="알림 테스트 보내기" />
+
+    </LinearLayout>
+</ScrollView>
