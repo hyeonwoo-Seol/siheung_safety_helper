@@ -1,14 +1,14 @@
 package com.example.safetyhelper
 
 import android.content.Intent
+import com.example.safetyhelper.FindAccountActivity
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.myapplication.databinding.ActivityMainBinding
-import com.example.myapplication.databinding.ActivitySettingBinding
+import com.example.safetyhelper.databinding.ActivitySettingBinding
 import utils.ThemeHelper
 
 class SettingAct : AppCompatActivity() {
@@ -35,7 +35,8 @@ class SettingAct : AppCompatActivity() {
             recreate()
         }
         binding.changePw.setOnClickListener(){
-            val intent = Intent(Intent.ACTION_VIEW,)
+            val intent = Intent(this, FindAccountActivity::class.java)
+            startActivity(intent)
         }
         binding.alarm.setOnClickListener(){
             val intent = Intent(this,AlarmAct::class.java)

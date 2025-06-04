@@ -13,8 +13,7 @@ import android.os.Vibrator
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import com.example.myapplication.databinding.ActivityAlarmBinding
+import com.example.safetyhelper.databinding.ActivityAlarmBinding
 import utils.NotificationHelper
 
 class AlarmAct : AppCompatActivity() {
@@ -89,7 +88,6 @@ class AlarmAct : AppCompatActivity() {
             }
         }
     }
-    )
     private fun createNotificationChannel(soundOff: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
