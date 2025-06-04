@@ -1,6 +1,9 @@
 package utils
 
-import com.example.myapplication.R
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
+import com.example.safetyhelper.R
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
@@ -15,6 +18,16 @@ object NotificationHelper {
     private const val PREFS_NAME = "setting"
 
     fun send(context: Context, title: String, message: String, notificationId: Int = 1) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permissionStatus = ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            )
+            if (permissionStatus != PackageManager.PERMISSION_GRANTED){
+                return
+            }
+        }
+
         val prefs: SharedPreferences = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val isSoundOff = prefs.getBoolean("sound_enabled", false)
         val isVibrationOn = prefs.getBoolean("vibration_enabled", false)
