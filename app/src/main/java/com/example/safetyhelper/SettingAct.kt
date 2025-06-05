@@ -1,6 +1,7 @@
 package com.example.safetyhelper
 
 import android.content.Intent
+import android.content.SharedPreferences
 import com.example.safetyhelper.FindAccountActivity
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -12,6 +13,11 @@ import com.example.safetyhelper.databinding.ActivitySettingBinding
 import utils.ThemeHelper
 
 class SettingAct : AppCompatActivity() {
+
+    companion object {
+        private const val PREFS_USER = "user_prefs"
+        private const val KEY_USER_NAME = "KEY_USER_NAME"
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         if (ThemeHelper.isDarkMode(this)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
@@ -22,6 +28,12 @@ class SettingAct : AppCompatActivity() {
         enableEdgeToEdge()
         val binding = ActivitySettingBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val userPrefs: SharedPreferences = getSharedPreferences(PREFS_USER, MODE_PRIVATE)
+        val savedUserName: String? = userPrefs.getString(KEY_USER_NAME, "")
+        // NULL이거나 빈 문자열인 경우에도 안전하게 처리
+        binding.userName.text = savedUserName ?: ""
+
         binding.darkMode.setOnClickListener(){
             val nowDark = ThemeHelper.isDarkMode(this)
             ThemeHelper.setDarkMode(this, !nowDark)
