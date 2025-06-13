@@ -12,11 +12,11 @@
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="92dp"
         android:layout_marginTop="200dp"
         android:contentDescription="시흥"
-        app:srcCompat="@drawable/logo_siheung"/>
+        app:srcCompat="@drawable/logo_siheung" />
 
     <ImageView
         android:id="@+id/imageView2"
