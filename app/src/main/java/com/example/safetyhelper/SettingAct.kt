@@ -65,7 +65,7 @@ class SettingAct : AppCompatActivity() {
             )
 
             val restartIntent = Intent(this, SettingAct::class.java)
-            restartIntent.putExtra("SKIP_LOCK", true)  // 🔐 잠금화면 생략
+            restartIntent.putExtra("SKIP_LOCK", true)  // 잠금화면 생략
             restartIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(restartIntent)
             finish()
