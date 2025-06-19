@@ -114,15 +114,14 @@ class SettingAct : AppCompatActivity() {
             finish()
         }
         binding.consuel.setOnClickListener {
-            val intent = Intent(Intent.ACTION_SENDTO).apply {
-                data = Uri.parse("mailto:kdi1124@naver.com") // 실제 이메일 주소 입력
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "message/rfc822"  // 이메일 전용 MIME 타입
+                putExtra(Intent.EXTRA_EMAIL, arrayOf("kdi1124@naver.com"))
                 putExtra(Intent.EXTRA_SUBJECT, "문의사항")
                 putExtra(Intent.EXTRA_TEXT, "아래에 내용을 입력해주세요.\n\n")
             }
-
-            // 이메일 앱이 없을 수도 있으니 예외 처리
             if (intent.resolveActivity(packageManager) != null) {
-                startActivity(intent)
+                startActivity(Intent.createChooser(intent, "이메일 앱 선택"))
             } else {
                 Toast.makeText(this, "이메일 앱이 설치되어 있지 않습니다.", Toast.LENGTH_SHORT).show()
             }
