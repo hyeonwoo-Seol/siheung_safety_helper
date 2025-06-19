@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fitsSystemWindows="true"
+    android:background="@color/background_color">
 
     <!-- ① 툴바를 LinearLayout 최상단에 추가 -->
     <androidx.appcompat.widget.Toolbar
