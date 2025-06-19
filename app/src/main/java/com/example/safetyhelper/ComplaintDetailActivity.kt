@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import utils.ThemeHelper
 
 class ComplaintDetailActivity : AppCompatActivity() {
 
@@ -18,6 +19,7 @@ class ComplaintDetailActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
 
         // SharedPreferences 초기화

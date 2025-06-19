@@ -16,11 +16,14 @@ import java.util.Locale
 import android.net.Uri
 import android.widget.FrameLayout
 import androidx.appcompat.widget.SwitchCompat
+import utils.ThemeHelper
 
 class MainScreen : AppCompatActivity() {
 
     private lateinit var announcementTv: TextView
     private lateinit var switchBigText: SwitchCompat
+    private var isFirstLaunch = true
+    private var isLockChecked = false
 
     companion object {
         private const val PREFS_NAME = "app_settings"
@@ -29,7 +32,10 @@ class MainScreen : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
+
+        isFirstLaunch = savedInstanceState?.getBoolean("IS_FIRST_LAUNCH", true) ?: true
         enableEdgeToEdge()
 
         // SharedPreferences 초기화 및 큰 글씨 모드 여부 확인
@@ -91,8 +97,30 @@ class MainScreen : AppCompatActivity() {
             val intent2 = Intent(Intent.ACTION_VIEW, Uri.parse(url2))
             startActivity(intent2)
         }
+
     }
 
+    //잠금화면 버튼 on일시 메인 들어오기 전에 잠금 화면으로 진입 off일시 그냥 진입
+    override fun onResume() {
+        super.onResume()
+
+        val lockPrefs = getSharedPreferences("lock_pref", MODE_PRIVATE)
+        val isLockEnabled = lockPrefs.getBoolean("lock_enabled", false)
+        val isPasswordSet = lockPrefs.getString("app_password", null) != null
+        val skipLock = intent.getBooleanExtra("SKIP_LOCK", false)
+
+        // 최초 진입 + 잠금 설정이 되어 있을 때만 락화면 실행
+        if (isFirstLaunch && isLockEnabled && isPasswordSet && !isLockChecked && !skipLock) {
+            isLockChecked = true
+            isFirstLaunch = false
+            val intent = Intent(this, LockScreen::class.java)
+            intent.putExtra("FROM_MAIN", true)
+
+            startActivity(intent)
+        } else {
+            isFirstLaunch = false
+        }
+    }
     // ② 툴바 메뉴 리소스 연결
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main_screen, menu)
@@ -104,6 +132,7 @@ class MainScreen : AppCompatActivity() {
             R.id.action_settings -> {
                 // SettingAct 로 이동하는 인텐트 생성
                 val intent = Intent(this, SettingAct::class.java)
+                intent.putExtra("SKIP_LOCK", true)
                 startActivity(intent)
                 true
             }
@@ -126,5 +155,9 @@ class MainScreen : AppCompatActivity() {
     private fun todayDate(): String {
         val sdf = SimpleDateFormat("yyyy.MM.dd", Locale.getDefault())
         return sdf.format(Date())
+    }
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBoolean("IS_FIRST_LAUNCH", isFirstLaunch)
     }
 }

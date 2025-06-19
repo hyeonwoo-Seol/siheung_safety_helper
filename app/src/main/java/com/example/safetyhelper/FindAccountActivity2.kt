@@ -8,9 +8,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.safetyhelper.databinding.ActivityFindAccount2Binding
 import com.example.safetyhelper.databinding.ActivityFindAccountBinding
+import utils.ThemeHelper
 
 class FindAccountActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val binding = ActivityFindAccount2Binding.inflate(layoutInflater)

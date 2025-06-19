@@ -46,6 +46,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import utils.ThemeHelper
 import java.io.File
 import java.util.Locale
 //firebase에 이미지를 보낼 때 사용하는 import문
@@ -91,6 +92,7 @@ class AiResponseActivity : AppCompatActivity() {
     private var userName: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
         // Firebase 초기화
         FirebaseApp.initializeApp(this)

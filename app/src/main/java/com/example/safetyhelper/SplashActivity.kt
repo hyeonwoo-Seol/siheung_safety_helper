@@ -11,12 +11,14 @@ import android.os.Handler
 import android.os.Looper
 import com.example.safetyhelper.databinding.ActivitySplashBinding
 import com.google.firebase.auth.FirebaseAuth
+import utils.ThemeHelper
 
 class SplashActivity : AppCompatActivity() {
 
     private val splashDelay: Long = 1500L
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         // 1) SplashScreen 적용(안드로이드 정책으로 적용 불가능?)
         installSplashScreen()
         super.onCreate(savedInstanceState)

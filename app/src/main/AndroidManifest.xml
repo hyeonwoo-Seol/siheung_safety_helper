@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-
     <!-- 권한 선언 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
@@ -14,8 +13,7 @@
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
-
-    <!-- 선택적 기능 선언 -->
+    <uses-permission android:name="android.permission.VIBRATE" /> <!-- 선택적 기능 선언 -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
@@ -31,8 +29,21 @@
         android:theme="@style/Theme.SafetyHelper"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
-        <!-- 기타 Activity -->
+        <activity
+            android:name=".ContactAct"
+            android:exported="false" />
+        <activity
+            android:name=".OnOffLockScreen"
+            android:exported="false" />
+        <activity
+            android:name=".SetLockPwScreen"
+            android:exported="false" />
+        <activity
+            android:name=".LockScreen"
+            android:exported="false" />
+        <activity
+            android:name=".VersionAct"
+            android:exported="false" /> <!-- 기타 Activity -->
         <activity
             android:name=".FindAccountActivity2"
             android:exported="false" />
@@ -41,9 +52,7 @@
             android:exported="false" />
         <activity
             android:name=".ComplaintListActivity"
-            android:exported="false" />
-
-        <!-- FileProvider 설정 -->
+            android:exported="false" /> <!-- FileProvider 설정 -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -53,17 +62,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <activity
             android:name=".PreAiResponseOneActivity"
-            android:exported="false" />
-
-        <!-- AI 응답 화면 -->
+            android:exported="false" /> <!-- AI 응답 화면 -->
         <activity
             android:name=".AiResponseActivity"
             android:exported="false"
-            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
-
-        <!-- 인증 관련 화면 -->
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" /> <!-- 인증 관련 화면 -->
         <activity
             android:name=".SignInActivity"
             android:exported="false" />
@@ -73,7 +79,6 @@
         <activity
             android:name=".NameActivity"
             android:exported="false" />
-
         <activity
             android:name=".AlarmAct"
             android:exported="false" />
@@ -85,25 +90,23 @@
             android:exported="false" />
         <activity
             android:name=".home"
-            android:exported="false" />
-
-        <!-- 런처 Splash 화면 -->
+            android:exported="false" /> <!-- 런처 Splash 화면 -->
         <activity
             android:name=".SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.MySplashScreen.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- 메인 화면 -->
+        </activity> <!-- 메인 화면 -->
         <activity
             android:name=".MainScreen"
             android:exported="false" />
-
-        <activity android:name=".FindAccountActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".FindAccountActivity"
+            android:exported="false" />
     </application>
+
 </manifest>

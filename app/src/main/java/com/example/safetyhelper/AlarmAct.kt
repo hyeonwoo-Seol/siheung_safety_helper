@@ -15,52 +15,51 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.example.safetyhelper.databinding.ActivityAlarmBinding
 import utils.NotificationHelper
+import utils.ThemeHelper
 
 class AlarmAct : AppCompatActivity() {
 
     private val CHANNEL_SOUND = "channel_sound"
     private val CHANNEL_SILENT = "channel_silent"
-    private val NOTI_ID = 1
     private lateinit var binding: ActivityAlarmBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-
         binding = ActivityAlarmBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
         requestNotificationPermission()
-
-
         createNotificationChannel(soundOff = false)
 
+        val prefs = getSharedPreferences("setting", Context.MODE_PRIVATE)
 
-        binding.home.setOnClickListener {
-            val intent = Intent(this, SettingAct::class.java)
-            startActivity(intent)
-        }
+        //상태 복원 췤
+        binding.switchSound.isChecked = prefs.getBoolean("sound_enabled", false)
+        binding.switchVibration.isChecked = prefs.getBoolean("vibration_enabled", false)
 
+        //사운드 설정
         binding.switchSound.setOnCheckedChangeListener { _, isChecked ->
-            val prefs = getSharedPreferences("setting", Context.MODE_PRIVATE)
             prefs.edit().putBoolean("sound_enabled", isChecked).apply()
-
-
-            createNotificationChannel(soundOff = isChecked)
-
+            createNotificationChannel(soundOff = !isChecked) // true일 때 sound 켜야 하므로 반전
         }
 
-        binding.btnNotify.setOnClickListener {
-            NotificationHelper.send(this, "테스트 알림", "소리 여부 설정에 따라 전송됨")
 
-            val isChecked = binding.switchVibration.isChecked
-            getSharedPreferences("setting", Context.MODE_PRIVATE)
-                .edit().putBoolean("vibration_enabled", isChecked).apply()
+        binding.switchVibration.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("vibration_enabled", isChecked).apply()
+        }
+
+        //알림 테스트 버튼
+        binding.testNotificationBtn.setOnClickListener {
+            val isVibration = prefs.getBoolean("vibration_enabled", false)
+            val isSound = prefs.getBoolean("sound_enabled", false)
+            val channelId = if (isSound) CHANNEL_SOUND else CHANNEL_SILENT
+
+            NotificationHelper.send(this, "테스트 알림", "설정에 따라 작동합니다", channelId)
 
 
-            if (isChecked) {
+            if (isVibration) {
                 val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     val effect = VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE)
@@ -71,11 +70,13 @@ class AlarmAct : AppCompatActivity() {
                 }
             }
         }
-        binding.switchVibration.setOnClickListener(){
-            NotificationHelper.send(this, "테스트 알림", "설정에 따라 작동합니다")
-        }
-    }
+        binding.switchPreview.isChecked = prefs.getBoolean("preview_enabled", true)
 
+        binding.switchPreview.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("preview_enabled", isChecked).apply()
+        }
+
+    }
 
     private fun requestNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -88,25 +89,27 @@ class AlarmAct : AppCompatActivity() {
             }
         }
     }
+
     private fun createNotificationChannel(soundOff: Boolean) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
 
             val soundChannel = NotificationChannel(
                 CHANNEL_SOUND,
                 "소리 알림",
                 NotificationManager.IMPORTANCE_DEFAULT
-            )
-
+            ).apply {
+                description = "소리를 포함한 알림 채널입니다."
+            }
 
             val silentChannel = NotificationChannel(
                 CHANNEL_SILENT,
                 "무음 알림",
-                NotificationManager.IMPORTANCE_DEFAULT
+                NotificationManager.IMPORTANCE_LOW
             ).apply {
                 setSound(null, null)
                 enableVibration(false)
+                description = "소리와 진동이 없는 무음 알림 채널입니다."
             }
 
             manager.createNotificationChannel(soundChannel)

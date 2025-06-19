@@ -12,6 +12,7 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import utils.ThemeHelper
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -25,6 +26,7 @@ class ComplaintListActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
         // 1) SharedPreferences 준비 및 큰 글씨 모드 여부 확인
         prefs = getSharedPreferences(PREFS_NAME, MODE_PRIVATE)              // ★추가

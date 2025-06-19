@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/background_color">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <TextView
+            android:id="@+id/tvLockTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:text="비밀번호를 입력하세요"
+            android:textColor="@color/title_text_color"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:focusable="false"
+            android:cursorVisible="false"
+            android:textColor="@color/title_text_color"
+            android:id="@+id/etPassword"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberPassword"
+            android:hint="비밀번호 4자리"
+            android:maxLength="4"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            app:layout_constraintTop_toBottomOf="@id/tvLockTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="40dp" />
+
+        <Button
+            android:id="@+id/btnVerifyToReset"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/title_text_color"
+            android:text="비밀번호 재설정"
+            android:textSize="16sp"
+            android:background="@drawable/ripple_content_round"
+            style="@style/DefaultButton"
+            app:layout_constraintTop_toBottomOf="@id/etPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <GridLayout
+            android:id="@+id/keypad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_gravity="center"
+            android:rowCount="4"
+            android:columnCount="3"
+            app:layout_constraintTop_toBottomOf="@id/etPassword"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:alignmentMode="alignMargins"
+            android:columnOrderPreserved="false">
+
+            <!-- 숫자 버튼 1~9 -->
+            <Button android:id="@+id/btn1" android:text="1" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn2" android:text="2" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn3" android:text="3" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn4" android:text="4" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn5" android:text="5" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn6" android:text="6" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn7" android:text="7" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn8" android:text="8" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn9" android:text="9" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+
+            <!-- 지우기, 0, 확인 -->
+            <Button android:id="@+id/temp" android:text=" " android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btn0" android:text="0" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+            <Button android:id="@+id/btnDelete" android:text="BS" android:textSize="20dp" android:layout_width="90dp" android:layout_height="90dp" style="@style/DefaultButton"/>
+
+        </GridLayout>
+
+        <Button
+            android:id="@+id/btnEnter"
+            style="@style/DefaultButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="468dp"
+            android:background="@drawable/ripple_content_round"
+            android:text="확인"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/etPassword" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

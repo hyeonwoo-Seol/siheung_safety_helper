@@ -1,160 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:padding="@dimen/side_padding">
+    android:padding="16dp"
+    android:background="?android:colorBackground">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:padding="5dp"
-        android:layout_width="match_parent"
+    <!-- 제목 -->
+    <TextView
+        android:id="@+id/titleText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        >
-        <ImageButton
-            android:id="@+id/home"
-            android:layout_width="66dp"
-            android:layout_height="64dp"
-            android:background="@android:color/transparent"
-            android:src="@drawable/back">
-        </ImageButton>
-        <!-- 사운드 스위치 -->
-        <Switch
-            android:id="@+id/switchSound"
-            android:text="사운드 알림"
-            android:textSize="20dp"
-            android:layout_width="match_parent"
-            android:layout_marginTop="10dp"
-            android:layout_height="wrap_content">
-        </Switch>
+        android:text="알림 설정"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="?android:textColorPrimary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 
-        <!-- 진동 스위치 -->
-        <Switch
-            android:layout_marginTop="10dp"
-            android:id="@+id/switchVibration"
-            android:text="진동 알림"
-            android:textSize="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+    <!-- ScrollView 시작 -->
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- 야간 제한 -->
-        <Switch
-            android:layout_marginTop="10dp"
-            android:id="@+id/switchDND"
-            android:text="야간 시간대 알림 차단"
-            android:textSize="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:text="22:00 ~ 07:00 사이엔 알림이 꺼집니다"
-            android:textSize="12sp"
-            android:textColor="#888888"
-            android:layout_marginBottom="16dp" />
-
-        <!-- 시간 설정 -->
-        <TextView
-            android:id="@+id/timeRangeLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="알림 허용 시간"
-            android:textSize="16sp"/>
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="16dp">
+            android:paddingTop="16dp"
+            android:paddingBottom="32dp">
 
-            <Button
-                android:id="@+id/btnStartTime"
+            <!-- 사운드 알림 -->
+            <TextView
+                android:id="@+id/soundLabel"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ripple_content_round"
-                android:enabled="false"
-                android:text="시작 시간"
-                android:textSize="20dp"
-                android:layout_marginEnd="5dp"/>
+                android:text="사운드 알림"
+                android:textSize="18sp"
+                android:textColor="?android:textColorPrimary"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/switchSound"
+                app:layout_constraintBottom_toBottomOf="@id/switchSound"/>
 
-            <Button
-                android:id="@+id/btnEndTime"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchSound"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="@+id/soundLabel"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <!-- 진동 알림 -->
+            <TextView
+                android:id="@+id/vibrationLabel"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ripple_content_round"
-                android:enabled="false"
-                android:text="종료 시간"
-                android:textSize="20dp"/>
-        </LinearLayout>
+                android:text="진동 알림"
+                android:textSize="18sp"
+                android:textColor="?android:textColorPrimary"
+                app:layout_constraintTop_toBottomOf="@id/switchSound"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/switchVibration"
+                app:layout_constraintBottom_toBottomOf="@id/switchVibration"
+                android:layout_marginTop="24dp"/>
 
-        <!-- 요일 선택 -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="알림 받을 요일"
-            android:textSize="20dp"/>
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchVibration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/switchSound"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="24dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginTop="8dp">
+            <!-- 미리보기 알림 -->
+            <TextView
+                android:id="@+id/previewLabel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="미리보기 표시"
+                android:textSize="18sp"
+                android:textColor="?android:textColorPrimary"
+                app:layout_constraintTop_toBottomOf="@id/switchVibration"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/switchPreview"
+                app:layout_constraintBottom_toBottomOf="@id/switchPreview"
+                android:layout_marginTop="24dp"/>
 
-            <CheckBox
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchPreview"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/mon"
-                android:text="월"
-                android:textSize="20dp"/>
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/tue"
-                android:text="화"
-                android:textSize="20dp"/>
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/wed"
-                android:text="수"
-                android:textSize="20dp"/>
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/thu"
-                android:text="목"
-                android:textSize="20dp"/>
+                app:layout_constraintTop_toBottomOf="@id/switchVibration"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="24dp"/>
 
+            <!-- 알림 테스트 버튼 -->
+            <Button
+                android:id="@+id/testNotificationBtn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="🔄 알림 테스트 보내기"
+                android:backgroundTint="?attr/colorPrimary"
+                android:textColor="@android:color/white"
+                android:layout_marginTop="36dp"
+                android:padding="12dp"
+                app:layout_constraintTop_toBottomOf="@id/switchPreview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/fri"
-                android:text="금"
-                android:textSize="20dp"/>
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sat"
-                android:text="토"
-                android:textSize="20dp"/>
-            <CheckBox
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/sun"
-                android:text="일"
-                android:textSize="20dp"/>
-        </LinearLayout>
-        <Button
-            android:id="@+id/btnNotify"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="알림 테스트 보내기" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
-    </LinearLayout>
-</ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

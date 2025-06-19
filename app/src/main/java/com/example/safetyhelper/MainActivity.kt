@@ -9,9 +9,11 @@ import androidx.core.view.WindowInsetsCompat
 import android.content.Intent
 import android.util.Log
 import android.widget.Toast
+import utils.ThemeHelper
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_main)

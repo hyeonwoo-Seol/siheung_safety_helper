@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/side_padding"
         android:layout_marginTop="128dp"
+        android:textColor="@color/title_text_color"
         android:text="민원 생성 전\n꼭 확인해주세요"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"

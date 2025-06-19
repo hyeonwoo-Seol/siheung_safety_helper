@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.safetyhelper.databinding.ActivityNameBinding
+import utils.ThemeHelper
 
 class NameActivity : AppCompatActivity() {
     companion object {
@@ -21,6 +22,7 @@ class NameActivity : AppCompatActivity() {
     private lateinit var userPrefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 

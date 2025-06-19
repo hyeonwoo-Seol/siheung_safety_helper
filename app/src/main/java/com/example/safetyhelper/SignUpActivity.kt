@@ -11,9 +11,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.safetyhelper.databinding.ActivitySignUpBinding
 import com.google.firebase.auth.FirebaseAuth
+import utils.ThemeHelper
 
 class SignUpActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val binding = ActivitySignUpBinding.inflate(layoutInflater)

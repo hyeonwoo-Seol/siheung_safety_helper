@@ -12,9 +12,11 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.safetyhelper.databinding.ActivityFindAccountBinding
 import com.google.firebase.auth.FirebaseAuth
 import android.view.inputmethod.EditorInfo
+import utils.ThemeHelper
 
 class FindAccountActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        ThemeHelper.applyDarkMode(this)
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         val binding = ActivityFindAccountBinding.inflate(layoutInflater)

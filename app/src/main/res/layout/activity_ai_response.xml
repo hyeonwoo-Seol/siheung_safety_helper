@@ -70,12 +70,12 @@
 
 
                     <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@drawable/image_gallery"
-                        android:contentDescription="사진 불러오기 아이콘"
+                        android:layout_width="37dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="8dp"
                         android:adjustViewBounds="true"
-                        android:layout_marginEnd="8dp" />
+                        android:contentDescription="사진 불러오기 아이콘"
+                        android:src="@drawable/image_gallery" />
 
 
                     <TextView
