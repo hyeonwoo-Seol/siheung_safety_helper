@@ -1,5 +1,6 @@
 package com.example.safetyhelper
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -21,8 +22,13 @@ class ContactAct : AppCompatActivity() {
         binding.sendBtn.setOnClickListener {
             val message = binding.inputMessage.text.toString()
             if (message.isNotBlank()) {
-                // 실제로는 서버로 전송 or 이메일로 전송 처리
-                Toast.makeText(this, "문의가 전송되었습니다", Toast.LENGTH_SHORT).show()
+                val intent = Intent(Intent.ACTION_SEND).apply {
+                    type = "message/rfc822"
+                    putExtra(Intent.EXTRA_EMAIL, arrayOf("kdi1124@naver.com"))
+                    putExtra(Intent.EXTRA_SUBJECT, "문의사항")
+                    putExtra(Intent.EXTRA_TEXT, message)
+                }
+                startActivity(Intent.createChooser(intent, "이메일 앱을 선택하세요"))
                 finish()
             } else {
                 Toast.makeText(this, "내용을 입력해주세요", Toast.LENGTH_SHORT).show()
